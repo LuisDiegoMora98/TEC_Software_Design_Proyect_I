@@ -1,0 +1,40 @@
+{
+    "characters": [
+        {
+            "name" : "Archer",
+            "atk" : 10,
+            "level" : 1,
+            "guns" : [
+                {
+                    "name" : "Arc",
+                    "atk" : 38,
+                    "level" : 1
+                }
+            ]
+        },
+        {
+            "name" : "Swordman",
+            "atk" : 15,
+            "level" : 1,
+            "guns" : [
+                {
+                    "name" : "Sword",
+                    "atk" : 56,
+                    "level" : 1
+                }
+            ]
+        },
+        {
+            "name" : "Wizard",
+            "atk" : 5,
+            "level" : 1,
+            "guns" : [
+                {
+                    "name" : "Magic Ball",
+                    "atk" : 75,
+                    "level" : 1
+                }
+            ]
+        }
+    ]
+}
