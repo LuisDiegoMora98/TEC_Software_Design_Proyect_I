@@ -11,9 +11,9 @@ import java.util.HashMap;
  *
  * @author Natalia
  */
-public class GunPrototypeFactory {
+public abstract class ICreator {
     
-    private static HashMap<String,IPrototype> prototypes = new HashMap<>();       
+    static HashMap<String,IPrototype> prototypes = new HashMap<>();       
 
     public static IPrototype getPrototype(String prototypeName){           
         return prototypes.get(prototypeName).deepClone();         
@@ -22,5 +22,4 @@ public class GunPrototypeFactory {
     public static void addPrototype(String prototypeName,IPrototype prototype){   
         prototypes.put(prototypeName, prototype);   
     }
-    
 }

@@ -7,52 +7,49 @@
 package Model;
 
 import java.awt.Image;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
  *
  * @author Natalia
  */
-public class Character implements IPrototype<Gun>{
+public class Character extends GameEntity implements IPrototype<Character>{
     
-    private String name;
-    private HashMap<Integer,Image> aspect;
+
     private int life;
     private double hitsPerTime;
-    private int level;
     private double fieldsInArmy;
     private int levelRequired;
-    private int cost;
+    private ArrayList<Weapon> weapons;
+    private Weapon currentWeapon;
+    private Direction direction;
 
-    public Character(String name, HashMap<Integer, Image> aspect, int life, double hitsPerTime, int level, double fieldsInArmy, int levelRequired, int cost) {
-        this.name = name;
-        this.aspect = aspect;
+    public Character(int life, double hitsPerTime, double fieldsInArmy, int levelRequired, 
+            ArrayList<Weapon> weapons, Weapon currentWeapon, Direction direction, String name, 
+            HashMap<Integer, Image> aspect, int level, double cost) {
+        super(name, aspect, level, cost);
         this.life = life;
         this.hitsPerTime = hitsPerTime;
-        this.level = level;
         this.fieldsInArmy = fieldsInArmy;
         this.levelRequired = levelRequired;
-        this.cost = cost;
+        this.weapons = weapons;
+        this.currentWeapon = currentWeapon;
+        this.direction = direction;
     }
 
-    public Character() {}
-
-    public String getName() {
-        return name;
+    public Character(int life, double hitsPerTime, double fieldsInArmy, int levelRequired, 
+            ArrayList<Weapon> weapons, Weapon currentWeapon, Direction direction) {
+        this.life = life;
+        this.hitsPerTime = hitsPerTime;
+        this.fieldsInArmy = fieldsInArmy;
+        this.levelRequired = levelRequired;
+        this.weapons = weapons;
+        this.currentWeapon = currentWeapon;
+        this.direction = direction;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public HashMap<Integer, Image> getAspect() {
-        return aspect;
-    }
-
-    public void setAspect(HashMap<Integer, Image> aspect) {
-        this.aspect = aspect;
-    }
-
+  
     public int getLife() {
         return life;
     }
@@ -67,14 +64,6 @@ public class Character implements IPrototype<Gun>{
 
     public void setHitsPerTime(double hitsPerTime) {
         this.hitsPerTime = hitsPerTime;
-    }
-
-    public int getLevel() {
-        return level;
-    }
-
-    public void setLevel(int level) {
-        this.level = level;
     }
 
     public double getFieldsInArmy() {
@@ -93,25 +82,59 @@ public class Character implements IPrototype<Gun>{
         this.levelRequired = levelRequired;
     }
 
-    public int getCost() {
-        return cost;
+    public ArrayList<Weapon> getWeapons() {
+        return weapons;
     }
 
-    public void setCost(int cost) {
-        this.cost = cost;
+    public void setWeapons(ArrayList<Weapon> weapons) {
+        this.weapons = weapons;
     }
     
-    
-    @Override
-    public Gun clone() {
-        throw new UnsupportedOperationException("Not supported yet."); 
+    public void addWeapons(Weapon weapon) {
+        this.weapons.add(weapon);
+    }
+
+    public Weapon getCurrentWeapon() {
+        return currentWeapon;
+    }
+
+    public void setCurrentWeapon(Weapon currentWeapon) {
+        this.currentWeapon = currentWeapon;
+    }
+
+    public Direction getDirection() {
+        return direction;
+    }
+
+    public void setDirection(Direction direction) {
+        this.direction = direction;
     }
 
     @Override
-    public Gun deepClone() {
-        throw new UnsupportedOperationException("Not supported yet."); 
+    public Character clone() {
+       HashMap<Integer,Image> aspect = this.aspect; 
+       return new Character(life,hitsPerTime,fieldsInArmy,levelRequired,weapons,
+               currentWeapon,direction,name, aspect,level,cost);
     }
-    
+
+    @Override
+    public Character deepClone() {
+        HashMap<Integer,Image> aspect = this.aspect; 
+        ArrayList<Weapon> weaponsCloned = new ArrayList();
+        this.weapons.stream().map((w) -> w.deepClone()).forEachOrdered((clon) -> {
+            weaponsCloned.add(clon);
+        });   
+        return new Character(life,hitsPerTime,fieldsInArmy,levelRequired,weaponsCloned,
+               currentWeapon,direction,name, aspect,level,cost);
+    }
+
+    @Override
+    public void attack(GameEntity gameEntity) {
+        System.out.println("Character Attacking xd");
+    }
+
+
+
      public static class CharacterBuilder implements IBuilder<Character>{
         
         private String name;
@@ -122,6 +145,9 @@ public class Character implements IPrototype<Gun>{
         private double fieldsInArmy;
         private int levelRequired;
         private int cost;
+        private ArrayList<Weapon> weapons;
+        private Weapon currentWeapon;
+        private Direction direction;
    
         public CharacterBuilder setName(String name) {
             this.name = name;
@@ -162,11 +188,33 @@ public class Character implements IPrototype<Gun>{
             this.cost = cost;
             return this;
         }
+
+        public void setWeapons(ArrayList<Weapon> weapons) {
+            this.weapons = weapons;
+        }
+
+        public CharacterBuilder addWeapons(Weapon weapon) {
+            //Instance 'cause weapon already has a builder
+            weapons.add(weapon);
+            return this;
+        }
+  
+        public CharacterBuilder setCurrentWeapon(Weapon currentWeapon) {
+            this.currentWeapon = currentWeapon;
+            return this;
+        }
+
+        public CharacterBuilder setDirection(Direction direction) {
+            this.direction = direction;
+            return this;
+        }
              
         
         @Override
         public Character build() {
-            return new Character(this.name, this.aspect, this.life, this.hitsPerTime, this.level, this.fieldsInArmy, this.levelRequired, this.cost);
+            return new Character(this.life,this.hitsPerTime,this.fieldsInArmy,this.levelRequired,
+                    this.weapons, this.currentWeapon, this.direction, this.name, this.aspect, 
+                    this.level,this.cost);
         }
 
      }

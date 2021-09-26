@@ -5,11 +5,13 @@
  */
 package Model;
 
+import java.util.HashMap;
+
 /**
  *
  * @author Natalia
  */
-public class CharacterPrototypeFactory extends ICreator{
+public class WeaponPrototypeFactory extends ICreator{
 
-
+ 
 }

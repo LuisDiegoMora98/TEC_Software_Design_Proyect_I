@@ -7,8 +7,9 @@ package Model;
 
 /**
  *
- * @author Natalia 
+ * @author Natalia
  */
-public class ConfigurationSingleton {
-    
+public enum GameObjectsEnum {
+    CHARACTER,
+    WEAPON;
 }

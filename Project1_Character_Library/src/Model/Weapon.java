@@ -12,37 +12,33 @@ import java.util.HashMap;
  *
  * @author Natalia
  */
-public class Gun implements IPrototype<Gun>{
-    private String name;
+public class Weapon extends GameEntity implements IPrototype<Weapon>{
+
     private int scope;
-    private HashMap<Integer,Image> aspect;  // No sé si este image mejor es un path
     private double damage;
     private double explotionRange;
-    private int level;
     private boolean levelIncrease;
 
-    public Gun() {
-        this.aspect = new HashMap<>();
-    }
+    public Weapon() {}
 
-    public Gun(String name, int scope, HashMap<Integer, Image> aspect, double damage, double explotionRange, int level, boolean levelIncrease) {
-        this.name = name;
+    public Weapon(int scope, double damage, double explotionRange, boolean levelIncrease, 
+                  String name, HashMap<Integer, Image> aspect, int level, double cost) {
+        
+        super(name, aspect, level, cost);
         this.scope = scope;
-        this.aspect = aspect;
         this.damage = damage;
         this.explotionRange = explotionRange;
-        this.level = level;
         this.levelIncrease = levelIncrease;
     }
 
-    
-    public String getName() {
-        return name;
+    public Weapon(int scope, double damage, double explotionRange, boolean levelIncrease) {
+        this.scope = scope;
+        this.damage = damage;
+        this.explotionRange = explotionRange;
+        this.levelIncrease = levelIncrease;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+
 
     public int getScope() {
         return scope;
@@ -52,14 +48,7 @@ public class Gun implements IPrototype<Gun>{
         this.scope = scope;
     }
 
-    public HashMap<Integer, Image> getAspect() {
-        return aspect;
-    }
-
-    public void setAspect(HashMap<Integer, Image> aspect) {
-        this.aspect = aspect;
-    }
-
+   
     public double getDamage() {
         return damage;
     }
@@ -76,14 +65,6 @@ public class Gun implements IPrototype<Gun>{
         this.explotionRange = explotionRange;
     }
 
-    public int getLevel() {
-        return level;
-    }
-
-    public void setLevel(int level) {
-        this.level = level;
-    }
-
     public boolean isLevelIncrease() {
         return levelIncrease;
     }
@@ -94,17 +75,24 @@ public class Gun implements IPrototype<Gun>{
     
 
     @Override
-    public Gun clone() {
-        throw new UnsupportedOperationException("Not supported yet."); 
+    public Weapon clone() {
+        HashMap<Integer,Image> aspect = this.aspect; 
+        return new Weapon( this.scope, this.damage, this.explotionRange,
+                    this.levelIncrease,this.name, this.aspect, this.level,this.cost); 
     }
 
     @Override
-    public Gun deepClone() {
-        throw new UnsupportedOperationException("Not supported yet."); 
+    public Weapon deepClone() {
+        return clone();
+    }
+
+    @Override
+    public void attack(GameEntity gameEntity) {
+        System.out.println("Weapon Attacking xd");
     }
     
     
-    public static class GunBuilder implements IBuilder<Gun>{
+    public static class WeaponBuilder implements IBuilder<Weapon>{
         
         private String name;
         private int scope;
@@ -113,46 +101,57 @@ public class Gun implements IPrototype<Gun>{
         private double explotionRange;
         private int level;
         private boolean levelIncrease;
+        private double cost;
 
-        public GunBuilder setName(String name) {
+        public WeaponBuilder setName(String name) {
             this.name = name;
             return this;
         }
 
-        public GunBuilder setScope(int scope) {
+        public WeaponBuilder setScope(int scope) {
             this.scope = scope;
             return this;
         }
 
-        public GunBuilder setAspect(int level) {
+        public WeaponBuilder addAspect(int level) {
             // parametro para la imagen
             this.aspect.put(level, null);
             return this;
         }
 
-        public GunBuilder setDamage(double damage) {
+        public WeaponBuilder setDamage(double damage) {
             this.damage = damage;
             return this;
         }
 
-        public GunBuilder setExplotionRange(double explotionRange) {
+        public WeaponBuilder setExplotionRange(double explotionRange) {
             this.explotionRange = explotionRange;
             return this;
         }
 
-        public GunBuilder setLevel(int level) {
+        public WeaponBuilder setLevel(int level) {
             this.level = level;
             return this;
         }
 
-        public GunBuilder setLevelIncrease(boolean levelIncrease) {
+        public WeaponBuilder setLevelIncrease(boolean levelIncrease) {
             this.levelIncrease = levelIncrease;
             return this;
         }
+
+        public WeaponBuilder setCost(double cost) {
+            this.cost = cost;
+            return this;
+        }
+        
+        
         
         @Override
-        public Gun build() {
-            return new Gun(this.name, this.scope, this.aspect, this.damage, this.explotionRange, this.level, this.levelIncrease);
+        public Weapon build() {
+            return new Weapon( this.scope, this.damage, this.explotionRange,
+                    this.levelIncrease,this.name, this.aspect, this.level,this.cost);
+        
+        
         }
     }
 }

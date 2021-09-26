@@ -3,12 +3,21 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Controller;
+package Model;
 
 /**
  *
- * @author Natalia 
+ * @author Natalia
  */
-public class CreatorController {
+public class JSONLoader {
+    private String URL;
     
+    
+    public void readJSON(){
+    
+    
+    }
+    
+    public void writeJSON(){
+    }
 }
