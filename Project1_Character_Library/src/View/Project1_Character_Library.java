@@ -5,7 +5,7 @@
  */
 package View;
 
-import Controller.PrototypeGetterController;
+
 
 /**
  *
@@ -17,8 +17,7 @@ public class Project1_Character_Library {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        PrototypeGetterController  c =  new PrototypeGetterController();
-        //System.out.println((c.getPrototype("loquesea", GameObjects.WEAPON)));
+        
     }
     
 }

@@ -5,6 +5,7 @@
  */
 package Model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -14,10 +15,21 @@ import java.util.HashMap;
 public abstract class ICreator {
     
     static HashMap<String,IPrototype> prototypes = new HashMap<>();       
-
-    public static IPrototype getPrototype(String prototypeName){           
-        return prototypes.get(prototypeName).deepClone();         
-    }       
+    static ArrayList<IPrototype> clones = new ArrayList<>();
+    
+    public static  ArrayList<IPrototype> getPrototypeDeepClone(String prototypeName, int quantity){    
+        for (int i=0; i< quantity; i++){
+             clones.add(prototypes.get(prototypeName).deepClone());
+        }
+        return clones;         
+    }  
+    
+    public static  ArrayList<IPrototype> getPrototypeClone(String prototypeName, int quantity){    
+        for (int i=0; i< quantity; i++){
+             clones.add(prototypes.get(prototypeName).clone());
+        }
+        return clones;         
+    }  
     
     public static void addPrototype(String prototypeName,IPrototype prototype){   
         prototypes.put(prototypeName, prototype);   
