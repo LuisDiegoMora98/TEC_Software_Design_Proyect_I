@@ -6,6 +6,7 @@
 package Model;
 
 import java.awt.Image;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -21,9 +22,7 @@ public class Weapon extends GameEntity implements IPrototype<Weapon>{
 
     public Weapon() {}
 
-    public Weapon(int scope, double damage, double explotionRange, boolean levelIncrease, 
-                  String name, HashMap<Integer, Image> aspect, int level, double cost) {
-        
+    public Weapon(int scope, double damage, double explotionRange, boolean levelIncrease, String name, HashMap<Integer, ArrayList<String>> aspect, int level, double cost) {
         super(name, aspect, level, cost);
         this.scope = scope;
         this.damage = damage;
@@ -37,7 +36,6 @@ public class Weapon extends GameEntity implements IPrototype<Weapon>{
         this.explotionRange = explotionRange;
         this.levelIncrease = levelIncrease;
     }
-
 
 
     public int getScope() {
@@ -76,7 +74,7 @@ public class Weapon extends GameEntity implements IPrototype<Weapon>{
 
     @Override
     public Weapon clone() {
-        HashMap<Integer,Image> aspect = this.aspect; 
+        HashMap<Integer,ArrayList<String>> aspect = this.aspect; 
         return new Weapon( this.scope, this.damage, this.explotionRange,
                     this.levelIncrease,this.name, this.aspect, this.level,this.cost); 
     }
@@ -96,7 +94,7 @@ public class Weapon extends GameEntity implements IPrototype<Weapon>{
         
         private String name;
         private int scope;
-        private HashMap<Integer,Image> aspect;  // No sé si este image mejor es un path
+        private HashMap<Integer,ArrayList<String>> aspect;  // No sé si este image mejor es un path
         private double damage;
         private double explotionRange;
         private int level;
@@ -113,9 +111,8 @@ public class Weapon extends GameEntity implements IPrototype<Weapon>{
             return this;
         }
 
-        public WeaponBuilder addAspect(int level) {
-            // parametro para la imagen
-            this.aspect.put(level, null);
+        public WeaponBuilder addAspect(int level, ArrayList<String> aspectlevel) {
+            this.aspect.put(level, aspectlevel);
             return this;
         }
 

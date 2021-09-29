@@ -6,7 +6,6 @@
  */
 package Model;
 
-import java.awt.Image;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -25,9 +24,12 @@ public class Character extends GameEntity implements IPrototype<Character>{
     private Weapon currentWeapon;
     private Direction direction;
 
+    public Character() {
+    }
+
     public Character(int life, double hitsPerTime, double fieldsInArmy, int levelRequired, 
             ArrayList<Weapon> weapons, Weapon currentWeapon, Direction direction, String name, 
-            HashMap<Integer, Image> aspect, int level, double cost) {
+            HashMap<Integer, ArrayList<String>> aspect, int level, double cost) {
         super(name, aspect, level, cost);
         this.life = life;
         this.hitsPerTime = hitsPerTime;
@@ -49,6 +51,7 @@ public class Character extends GameEntity implements IPrototype<Character>{
         this.direction = direction;
     }
 
+    
   
     public int getLife() {
         return life;
@@ -112,14 +115,14 @@ public class Character extends GameEntity implements IPrototype<Character>{
 
     @Override
     public Character clone() {
-       HashMap<Integer,Image> aspect = this.aspect; 
+       HashMap<Integer,ArrayList<String>> aspect = this.aspect; 
        return new Character(life,hitsPerTime,fieldsInArmy,levelRequired,weapons,
                currentWeapon,direction,name, aspect,level,cost);
     }
 
     @Override
     public Character deepClone() {
-        HashMap<Integer,Image> aspect = this.aspect; 
+        HashMap<Integer,ArrayList<String>> aspect = this.aspect; 
         ArrayList<Weapon> weaponsCloned = new ArrayList();
         this.weapons.stream().map((w) -> w.deepClone()).forEachOrdered((clon) -> {
             weaponsCloned.add(clon);
@@ -138,7 +141,7 @@ public class Character extends GameEntity implements IPrototype<Character>{
      public static class CharacterBuilder implements IBuilder<Character>{
         
         private String name;
-        private HashMap<Integer,Image> aspect;
+        private HashMap<Integer,ArrayList<String>> aspect;
         private int life;
         private double hitsPerTime;
         private int level;
@@ -154,8 +157,8 @@ public class Character extends GameEntity implements IPrototype<Character>{
             return this;
         }
 
-        public CharacterBuilder setAspect(int level) {
-            this.aspect.put(level, null);
+        public CharacterBuilder setAspect(int level, ArrayList<String> aspectlevel) {
+            this.aspect.put(level, aspectlevel);
             return this;
         }
 
