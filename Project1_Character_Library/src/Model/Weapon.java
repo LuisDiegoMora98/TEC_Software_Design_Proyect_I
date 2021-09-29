@@ -115,6 +115,12 @@ public class Weapon extends GameEntity implements IPrototype<Weapon>{
             this.aspect.put(level, aspectlevel);
             return this;
         }
+        
+        public WeaponBuilder setAspect(HashMap<Integer,ArrayList<String>> aspect) {
+            this.aspect = aspect;
+            return this;
+        }
+
 
         public WeaponBuilder setDamage(double damage) {
             this.damage = damage;

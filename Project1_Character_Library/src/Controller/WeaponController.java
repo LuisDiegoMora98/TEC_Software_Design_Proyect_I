@@ -52,7 +52,7 @@ public class WeaponController {
         //y otra de cant de niveles, o un array de array si es posible
         Weapon weapon = new Weapon.WeaponBuilder().setName(name)
                 .setScope(scope)
-                //.addAspect()
+                .setAspect(aspect)
                 .setDamage(damage)
                 .setExplotionRange(explotionRange)
                 .setLevel(level)
