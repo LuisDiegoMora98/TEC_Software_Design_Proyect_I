@@ -1,9 +1,4 @@
 Project1_Character_Library/build.xml
 Project1_Character_Library/manifest.mf
-Project1_Character_Library/nbproject/build-impl.xml
-Project1_Character_Library/nbproject/genfiles.properties
-Project1_Character_Library/nbproject/project.properties
-Project1_Character_Library/nbproject/private/private.properties
-Project1_Character_Library/nbproject/private/private.xml
-Project1_Character_Library/nbproject/project.xml
-Project1_Character_Library/build/
+Project1_Character_Library/nbproject/*
+Project1_Character_Library/build/*
