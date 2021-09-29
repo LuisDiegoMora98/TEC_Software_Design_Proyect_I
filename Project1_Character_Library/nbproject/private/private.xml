@@ -3,9 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/2%20SEMESTRE%202021/DISEÑO/PROYECTOS/TEC_Software_Design_Proyect_I/Project1_Character_Library/src/Model/ConfigurationSingleton.java</file>
-            <file>file:/D:/2%20SEMESTRE%202021/DISEÑO/PROYECTOS/TEC_Software_Design_Proyect_I/Project1_Character_Library/src/Model/ICreator.java</file>
-            <file>file:/D:/2%20SEMESTRE%202021/DISEÑO/PROYECTOS/TEC_Software_Design_Proyect_I/Project1_Character_Library/src/Model/CharacterPrototypeFactory.java</file>
+            <file>file:/D:/Documentos%20locales/Git/TEC_Software_Design_Proyect_I/Project1_Character_Library/src/Controller/CharacterController.java</file>
+            <file>file:/D:/Documentos%20locales/Git/TEC_Software_Design_Proyect_I/Project1_Character_Library/src/Model/WeaponController.java</file>
+            <file>file:/D:/Documentos%20locales/Git/TEC_Software_Design_Proyect_I/Project1_Character_Library/src/Model/ICreator.java</file>
+            <file>file:/D:/Documentos%20locales/Git/TEC_Software_Design_Proyect_I/Project1_Character_Library/src/Model/IPrototype.java</file>
+            <file>file:/D:/Documentos%20locales/Git/TEC_Software_Design_Proyect_I/Project1_Character_Library/src/Model/JSONLoader.java</file>
+            <file>file:/D:/Documentos%20locales/Git/TEC_Software_Design_Proyect_I/Project1_Character_Library/src/Controller/WeaponController.java</file>
         </group>
     </open-files>
 </project-private>
