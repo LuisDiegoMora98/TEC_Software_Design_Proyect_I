@@ -1,7 +1,7 @@
 # CreateMe Character Creation Java Library
 
 ## Description
-This library will let you create a variety of characters, being able to define your own level, weapon, images, stats and own rules for your game. See more on [Usage Section](##Usage)
+This library will let you create a variety of characters, being able to define your own level, weapon, images, stats and own rules for your game. See more on [Usage Section](#usage)
 
 ## Visuals
 Here a [video tutorial](https://www.youtube.com/watch?v=Y1zl6WgZSAw) of how to use the software, our authors are gentle with people who wants to create!
