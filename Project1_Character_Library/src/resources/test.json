@@ -1,0 +1,39 @@
+{
+    "characters": [{
+            "life": 100,
+            "hitsPerTime": 5.0,
+            "fieldsInArmy": 2.0,
+            "levelRequired": 2,
+            "weapons": [{
+                    "scope": 1,
+                    "damage": 500.0,
+                    "explotionRange": 25.0,
+                    "levelIncrease": true,
+                    "aspect": {},
+                    "level": 0,
+                    "cost": 0.0
+                }],
+            "currentWeapon": {
+                "scope": 1,
+                "damage": 500.0,
+                "explotionRange": 25.0,
+                "levelIncrease": true,
+                "aspect": {},
+                "level": 0,
+                "cost": 0.0
+            },
+            "direction": "WEST",
+            "aspect": {},
+            "level": 0,
+            "cost": 0.0
+        }],
+    "weapons": [{
+            "scope": 1,
+            "damage": 500.0,
+            "explotionRange": 25.0,
+            "levelIncrease": true,
+            "aspect": {},
+            "level": 0,
+            "cost": 0.0
+        }]
+}
