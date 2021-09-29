@@ -86,6 +86,14 @@ public class JSONLoader {
             System.out.println(e);
         }
     }
+    
+    public ArrayList<Character> getCharacters(){
+        return this.data.characters;
+    }
+    
+    public ArrayList<Weapon> getWeapons(){
+        return this.data.weapons;
+    }
 
     //testing read and write with dummy objects
     public static void main(String[] args) throws IOException {
