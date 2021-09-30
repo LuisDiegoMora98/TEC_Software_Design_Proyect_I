@@ -5,7 +5,6 @@
  */
 package Model;
 
-import java.awt.Image;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -94,12 +93,14 @@ public class Weapon extends GameEntity implements IPrototype<Weapon>{
         
         private String name;
         private int scope;
-        private HashMap<Integer,ArrayList<String>> aspect;  // No sé si este image mejor es un path
+        private HashMap<Integer,ArrayList<String>> aspect = new HashMap<>();
         private double damage;
         private double explotionRange;
         private int level;
         private boolean levelIncrease;
         private double cost;
+        
+        public WeaponBuilder(){}
 
         public WeaponBuilder setName(String name) {
             this.name = name;
