@@ -22,7 +22,7 @@ import utils.JSONLoader;
 public class WeaponController {
     
     private final JSONLoader json;
-    
+    private WeaponPrototypeFactory weaponPrototypes = new  WeaponPrototypeFactory();
     public WeaponController() throws IOException{
     
         this.json = JSONLoader.getInstance();
@@ -30,16 +30,14 @@ public class WeaponController {
     }
     
     public Weapon getWeapon(String name){
-        return (Weapon)WeaponPrototypeFactory.getPrototypeDeepClone(name,1)
-                .get(0);
+        return (Weapon)weaponPrototypes.getPrototypeDeepClone(name);
     }
     
     public ArrayList<Weapon> getManyWeapons(String name, int quantity){
-        ArrayList<Weapon> weapons = new ArrayList<>(); 
-        ArrayList<IPrototype> prototypes = WeaponPrototypeFactory.getPrototypeDeepClone( name, quantity);
-        prototypes.forEach( prototype ->{
-             weapons.add((Weapon)prototype);
-        });
+         ArrayList<Weapon> weapons = new ArrayList<Weapon>(); 
+        for(int i = 0; i< quantity; i++){
+             weapons.add((Weapon)weaponPrototypes.getPrototypeDeepClone(name));
+        }
         return weapons;
     }
     
@@ -60,7 +58,7 @@ public class WeaponController {
                 .setCost(cost)
                 .build();
         
-        WeaponPrototypeFactory.addPrototype(name, weapon);
+        weaponPrototypes.addPrototype(name, weapon);
         json.writeJSON(weapon);
         return weapon;
     }
@@ -68,7 +66,7 @@ public class WeaponController {
     private void loadWapons(){
         ArrayList<Weapon> weapons = json.getWeapons();
         weapons.forEach(weapon -> {
-            WeaponPrototypeFactory.addPrototype(weapon.getName(), weapon);
+            weaponPrototypes.addPrototype(weapon.getName(), weapon);
         });
     }
     
