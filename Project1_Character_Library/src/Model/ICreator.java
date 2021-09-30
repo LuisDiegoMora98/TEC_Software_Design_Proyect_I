@@ -29,4 +29,8 @@ public abstract class ICreator {
     public void addPrototype(String prototypeName,IPrototype prototype){   
         prototypes.put(prototypeName, prototype);   
     }
+    
+    public HashMap<String,IPrototype> getPrototypes(){
+        return this.prototypes;
+    }
 }
