@@ -24,13 +24,22 @@ public class CharacterController {
     
     private final JSONLoader json;
     private ICreator factory;
+    private static CharacterController controller;
     
-    public CharacterController() throws IOException{
+    private CharacterController() throws IOException{
         this.json = JSONLoader.getInstance();
         this.factory = new CharacterPrototypeFactory();
         if(!json.getCharacters().isEmpty()){
             this.loadCharacters();
         }
+    }
+    
+    public static CharacterController getInstance() throws IOException{
+        if(CharacterController.controller != null){
+            return controller;
+        }
+        CharacterController.controller = new CharacterController();
+        return controller;
     }
     
     private void loadCharacters(){
