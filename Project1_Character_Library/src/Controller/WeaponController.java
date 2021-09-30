@@ -10,11 +10,9 @@ package Controller;
  * @author LDAZ
  */
 
-import Model.IPrototype;
 import Model.WeaponPrototypeFactory;
 import java.util.ArrayList;
 import Model.Weapon;
-import java.awt.Image;
 import java.io.IOException;
 import java.util.HashMap;
 import utils.JSONLoader;
