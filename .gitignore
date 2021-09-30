@@ -2,3 +2,6 @@ Project1_Character_Library/build.xml
 Project1_Character_Library/manifest.mf
 Project1_Character_Library/nbproject/*
 Project1_Character_Library/build/*
+*.class
+Project1_Character_Library/nbproject/build-impl.xml
+Project1_Character_Library/nbproject/private/private.xml
