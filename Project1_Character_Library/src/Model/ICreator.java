@@ -12,14 +12,25 @@ import java.util.HashMap;
  * @author Natalia
  */
 public abstract class ICreator {
+    protected HashMap<String,IPrototype> prototypes = new HashMap<>();       
     
-    static HashMap<String,IPrototype> prototypes = new HashMap<>();       
-
-    public static IPrototype getPrototype(String prototypeName){           
-        return prototypes.get(prototypeName).deepClone();         
-    }       
+    public ICreator(){
+        this.prototypes = new HashMap<>();
+    }
     
-    public static void addPrototype(String prototypeName,IPrototype prototype){   
+    public IPrototype getPrototypeDeepClone(String prototypeName){    
+            return prototypes.get(prototypeName).deepClone();
+    }  
+    
+    public IPrototype getPrototypeClone(String prototypeName){
+        return prototypes.get(prototypeName).clone();
+    }  
+    
+    public void addPrototype(String prototypeName,IPrototype prototype){   
         prototypes.put(prototypeName, prototype);   
+    }
+    
+    public HashMap<String,IPrototype> getPrototypes(){
+        return this.prototypes;
     }
 }

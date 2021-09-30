@@ -6,6 +6,7 @@
 package Model;
 
 import java.awt.Image;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -15,12 +16,13 @@ import java.util.HashMap;
 public abstract class GameEntity {
     
     protected String name;
-    protected HashMap<Integer,Image> aspect;
+    protected HashMap<Integer,ArrayList<String>> aspect;
     protected int level;
     protected double cost;
   
 
-    public GameEntity(String name, HashMap<Integer, Image> aspect, int level, double cost) {
+    public GameEntity(String name, HashMap<Integer,ArrayList<String>> aspect, 
+            int level, double cost) {
         this.name = name;
         this.aspect = aspect;
         this.level = level;
@@ -39,16 +41,16 @@ public abstract class GameEntity {
         this.name = name;
     }
 
-    public HashMap<Integer, Image> getAspect() {
+    public HashMap<Integer,ArrayList<String>> getAspect() {
         return aspect;
     }
 
-    public void setAspect(HashMap<Integer, Image> aspect) {
+    public void setAspect(HashMap<Integer,ArrayList<String>> aspect) {
         this.aspect = aspect;
     }
     
-    public void addAspect(int level, Image aspect) {
-        this.aspect.put(level, aspect);
+    public void addAspect(int level, ArrayList<String> aspectLevel) {
+        this.aspect.put(level, aspectLevel);
     } 
 
     public int getLevel() {

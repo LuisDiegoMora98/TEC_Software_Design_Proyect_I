@@ -11,5 +11,8 @@ package Model;
  */
 public class CharacterPrototypeFactory extends ICreator{
 
+    public CharacterPrototypeFactory(){
+        super();
+    }
 
 }
