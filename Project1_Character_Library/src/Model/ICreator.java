@@ -14,24 +14,31 @@ import java.util.HashMap;
  */
 public abstract class ICreator {
     
-    static HashMap<String,IPrototype> prototypes = new HashMap<>();       
-    static ArrayList<IPrototype> clones = new ArrayList<>();
+    protected HashMap<String,IPrototype> prototypes = new HashMap<>();       
+    protected ArrayList<IPrototype> clones = new ArrayList<>();
     
-    public static  ArrayList<IPrototype> getPrototypeDeepClone(String prototypeName, int quantity){    
+    public ICreator(){
+        this.clones = new ArrayList<>();
+        this.prototypes = new HashMap<>();
+    }
+    
+    public ArrayList<IPrototype> getPrototypeDeepClone(String prototypeName, int quantity){    
+        this.clones = new ArrayList<>();
         for (int i=0; i< quantity; i++){
              clones.add(prototypes.get(prototypeName).deepClone());
         }
         return clones;         
     }  
     
-    public static  ArrayList<IPrototype> getPrototypeClone(String prototypeName, int quantity){    
+    public ArrayList<IPrototype> getPrototypeClone(String prototypeName, int quantity){
+        this.clones = new ArrayList<>();
         for (int i=0; i< quantity; i++){
              clones.add(prototypes.get(prototypeName).clone());
         }
         return clones;         
     }  
     
-    public static void addPrototype(String prototypeName,IPrototype prototype){   
+    public void addPrototype(String prototypeName,IPrototype prototype){   
         prototypes.put(prototypeName, prototype);   
     }
 }
