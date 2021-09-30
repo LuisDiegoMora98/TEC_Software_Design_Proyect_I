@@ -9,6 +9,7 @@ import Model.Character;
 import Model.CharacterPrototypeFactory;
 import Model.Direction;
 import Model.ICreator;
+import Model.IPrototype;
 import Model.Weapon;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -70,5 +71,16 @@ public class CharacterController {
     
     public Character getCharacter(String pName){
         return (Character)this.factory.getPrototypeDeepClone(pName);
+    }
+    
+    public ArrayList<Character> getAllCharacters(){
+        ArrayList<IPrototype> list = new ArrayList<>((
+                (CharacterPrototypeFactory)this.factory)
+                .getPrototypes().values());
+        ArrayList<Character> finalList = new ArrayList<>();
+        list.forEach(it -> {
+            finalList.add((Character)it);
+        });
+        return finalList;
     }
 }
