@@ -6,7 +6,6 @@
 package utils;
 
 import Model.Character;
-import Model.Direction;
 import Model.Weapon;
 import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
@@ -86,17 +85,13 @@ public class JSONLoader {
             System.out.println(e);
         }
     }
-
-    //testing read and write with dummy objects
-    public static void main(String[] args) throws IOException {
-        JSONLoader test = new JSONLoader();
-        
-        Weapon weapon = new Weapon(1, 500, 25, true);
-        ArrayList<Weapon> weaponList = new ArrayList<>();
-        weaponList.add(weapon);
-        Character charac = new Character(100, 5, 2, 2, weaponList, weapon, Direction.WEST);
-        System.out.println("\n\nWriting JSON...\n");
-        test.writeJSON(charac);
+    
+    public ArrayList<Character> getCharacters(){
+        return this.data.characters;
+    }
+    
+    public ArrayList<Weapon> getWeapons(){
+        return this.data.weapons;
     }
 
 }

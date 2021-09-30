@@ -151,13 +151,22 @@ public class Character extends GameEntity implements IPrototype<Character>{
         private ArrayList<Weapon> weapons;
         private Weapon currentWeapon;
         private Direction direction;
+        
+        public CharacterBuilder() {
+            this.aspect = new HashMap<>();
+        }
    
         public CharacterBuilder setName(String name) {
             this.name = name;
             return this;
         }
+        
+        public CharacterBuilder setAspect(HashMap<Integer,ArrayList<String>> aspect) {
+            this.aspect = aspect;
+            return this;
+        }
 
-        public CharacterBuilder setAspect(int level, ArrayList<String> aspectlevel) {
+        public CharacterBuilder addAspect(int level, ArrayList<String> aspectlevel) {
             this.aspect.put(level, aspectlevel);
             return this;
         }
@@ -192,8 +201,9 @@ public class Character extends GameEntity implements IPrototype<Character>{
             return this;
         }
 
-        public void setWeapons(ArrayList<Weapon> weapons) {
+        public CharacterBuilder setWeapons(ArrayList<Weapon> weapons) {
             this.weapons = weapons;
+            return this;
         }
 
         public CharacterBuilder addWeapons(Weapon weapon) {
