@@ -55,7 +55,6 @@ public class CharacterWeaponViwer extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         characterWeaponList1 = new javax.swing.JList<>();
         jLabel14 = new javax.swing.JLabel();
-        jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -220,13 +219,6 @@ public class CharacterWeaponViwer extends javax.swing.JFrame {
 
         jLabel14.setText("Weapons");
 
-        jButton3.setText("Edit weapon");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
-
         jButton4.setText("Add weapon");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -251,9 +243,7 @@ public class CharacterWeaponViwer extends javax.swing.JFrame {
                         .addGap(527, 527, 527))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(47, 47, 47)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton4)
-                            .addComponent(jButton3))
+                        .addComponent(jButton4)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel2Layout.setVerticalGroup(
@@ -278,9 +268,7 @@ public class CharacterWeaponViwer extends javax.swing.JFrame {
                                 .addComponent(weaponIcon1, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(27, 27, 27)
                         .addComponent(jLabel10)
-                        .addGap(73, 73, 73)
-                        .addComponent(jButton3)
-                        .addGap(28, 28, 28)
+                        .addGap(123, 123, 123)
                         .addComponent(jButton4)))
                 .addGap(33, 33, 33))
         );
@@ -310,10 +298,6 @@ public class CharacterWeaponViwer extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
@@ -362,7 +346,6 @@ public class CharacterWeaponViwer extends javax.swing.JFrame {
     private javax.swing.JLabel charaterIcon;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;

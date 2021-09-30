@@ -20,12 +20,6 @@ public class WeaponForm extends javax.swing.JFrame {
         initComponents();
     }
     
-    /**
-     * Creates new form WeaponForm for editing an existing Weapon
-     */
-    public WeaponForm(Weapon weapon) {
-        initComponents();
-    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -53,7 +47,6 @@ public class WeaponForm extends javax.swing.JFrame {
         levelIncreaseCheck = new java.awt.Checkbox();
         levelField = new javax.swing.JTextField();
         jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
         NameField = new javax.swing.JTextField();
 
@@ -67,7 +60,7 @@ public class WeaponForm extends javax.swing.JFrame {
 
         jLabel4.setText("Level Increase");
 
-        jLabel5.setText("Route");
+        jLabel5.setText("Path");
 
         jButton1.setText("Open File");
 
@@ -91,8 +84,6 @@ public class WeaponForm extends javax.swing.JFrame {
                 jButton3ActionPerformed(evt);
             }
         });
-
-        jButton4.setText("Save as a new Weapon");
 
         jLabel8.setText("Name");
 
@@ -147,7 +138,7 @@ public class WeaponForm extends javax.swing.JFrame {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addComponent(jButton1))
                                     .addComponent(levelField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addContainerGap(28, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jButton2)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -156,8 +147,6 @@ public class WeaponForm extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(117, 117, 117)
                         .addComponent(jButton3)
-                        .addGap(52, 52, 52)
-                        .addComponent(jButton4)
                         .addGap(0, 0, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
@@ -204,9 +193,7 @@ public class WeaponForm extends javax.swing.JFrame {
                         .addGap(70, 70, 70)
                         .addComponent(jButton2)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton3)
-                    .addComponent(jButton4))
+                .addComponent(jButton3)
                 .addGap(37, 37, 37))
         );
 
@@ -267,7 +254,6 @@ public class WeaponForm extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
