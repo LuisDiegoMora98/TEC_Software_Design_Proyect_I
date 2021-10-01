@@ -17,7 +17,7 @@ public abstract class ICreator {
     public ICreator(){
         this.prototypes = new HashMap<>();
     }
-    
+    //test comment
     public IPrototype getPrototypeDeepClone(String prototypeName){    
             return prototypes.get(prototypeName).deepClone();
     }  
