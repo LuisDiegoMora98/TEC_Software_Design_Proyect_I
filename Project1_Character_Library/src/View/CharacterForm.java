@@ -90,7 +90,7 @@ public class CharacterForm extends javax.swing.JFrame {
 
         jLabel8.setText("Level");
 
-        jLabel9.setText("Path");
+        jLabel9.setText("Route");
 
         previewIcon.setText("Preview");
 
@@ -122,6 +122,12 @@ public class CharacterForm extends javax.swing.JFrame {
 
         jLabel12.setText("Available weapons");
 
+        levelField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                levelFieldActionPerformed(evt);
+            }
+        });
+
         jButton7.setText("Save");
 
         jLabel10.setText("Name");
@@ -151,7 +157,7 @@ public class CharacterForm extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel10)
                                 .addGap(67, 67, 67)
-                                .addComponent(NameField)))
+                                .addComponent(NameField, javax.swing.GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE)))
                         .addGap(18, 18, 18)
                         .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(24, 24, 24)
@@ -199,7 +205,7 @@ public class CharacterForm extends javax.swing.JFrame {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(jButton7)
                                         .addGap(176, 176, 176)))))))
-                .addContainerGap(24, Short.MAX_VALUE))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -273,6 +279,10 @@ public class CharacterForm extends javax.swing.JFrame {
     private void availableWeaponsListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_availableWeaponsListActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_availableWeaponsListActionPerformed
+
+    private void levelFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_levelFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_levelFieldActionPerformed
 
     /**
      * @param args the command line arguments
