@@ -111,7 +111,7 @@
                                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                           <Component id="jButton4" min="-2" max="-2" attributes="0"/>
                                       </Group>
-                                      <Component id="levelField" min="-2" max="-2" attributes="0"/>
+                                      <Component id="levelField" min="-2" pref="76" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">

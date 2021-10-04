@@ -6,9 +6,12 @@
 package utils;
 
 import java.awt.Component;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -32,7 +35,7 @@ public class ImageChooser {
         chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         Component parent = null; //to safe the selected directory
         chooser.setMultiSelectionEnabled(true);  //Allow multiple selection
-        FileFilter filter = new FileNameExtensionFilter ("Archivo de imagen (JPG / GIF)", "JPG", "JPEG", "GIF"); 
+        FileFilter filter = new FileNameExtensionFilter ("Archivo de imagen", "JPG", "JPEG", "GIF", "PNG"); 
         //Filter to choose only images
 	chooser.setFileFilter(filter);
         
@@ -42,12 +45,20 @@ public class ImageChooser {
 
            File[] files = chooser.getSelectedFiles();
             for (File file : files) {
-                paths.add(file.getName());
+                paths.add(file.getAbsolutePath());
             }
 
          }
         
         return paths;
     }
+    
+    public static Image getImage(int X,int Y,String pathname) throws IOException{
+        File file = new File(pathname);
+        BufferedImage image = ImageIO.read(file);
+        Image resized = image.getScaledInstance(X, Y, Image.SCALE_SMOOTH);
+        return resized;
+    }
+    
     
 }
