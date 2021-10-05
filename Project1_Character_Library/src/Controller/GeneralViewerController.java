@@ -9,35 +9,36 @@ import View.GeneralViwer;
 import java.util.ArrayList;
 import Model.Character;
 import Model.Weapon;
+import View.WeaponForm;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
  *
- * @author lalem
+ * @author LDAZ
  */
-public class ControllerViewer {
+public class GeneralViewerController {
     
 
-    private static ControllerViewer controllerViewer;
+    private static GeneralViewerController controllerViewer;
     private CharacterController characters;
     private WeaponController weapons;
     private GeneralViwer viewer;
     
-    private ControllerViewer() {
+    private GeneralViewerController() {
         try {
             characters = CharacterController.getInstance();
             weapons = WeaponController.getInstance();
         } catch (IOException ex) {
-            Logger.getLogger(ControllerViewer.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(GeneralViewerController.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     }
     
-    public static ControllerViewer getInstance(){
+    public static GeneralViewerController getInstance(){
         if(controllerViewer == null){
-            controllerViewer = new ControllerViewer();
+            controllerViewer = new GeneralViewerController();
         }
         return controllerViewer;
     }    
@@ -54,27 +55,6 @@ public class ControllerViewer {
     public ArrayList<Weapon> getWeaponList(){
         return weapons.getAllWeapons();
     }
-    
-    public void newCharacter(){
-        //Agregar el controlador del character Form
-       
-    }
-    
-    public void newWeapon(){
-        //Agregar el controlador del weapon Form
-       
-    }
-    
-    public void editCharacter(Character character){
-        //Agregar el controlador del character Form
-       
-    }
-    
-    public void editWeapon(Weapon weapon){
-        //Agregar el controlador del character Form
-       
-    }
-    
     
     public void refresh(){
     

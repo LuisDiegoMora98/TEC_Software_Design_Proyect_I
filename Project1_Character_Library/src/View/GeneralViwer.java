@@ -5,10 +5,13 @@
  */
 package View;
 
-import Controller.ControllerViewer;
+import Controller.GeneralViewerController;
 import Model.Weapon;
 import Model.Character;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.AbstractListModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -26,9 +29,9 @@ public class GeneralViwer extends javax.swing.JFrame {
     CustomListCharacterModel characterModel = new CustomListCharacterModel();
     CustomListWeaponModel characterWeaponModel = new CustomListWeaponModel();
     CustomListWeaponModel weaponModel = new CustomListWeaponModel();
-    ControllerViewer controller;
+    GeneralViewerController controller;
     public GeneralViwer() {
-        controller = ControllerViewer.getInstance();
+        controller = GeneralViewerController.getInstance();
         initComponents();
         characterWeaponList.setModel(characterWeaponModel);
         characterList.setModel(characterModel);
@@ -407,6 +410,11 @@ public class GeneralViwer extends javax.swing.JFrame {
         jLabel14.setText("Weapons");
 
         jButton4.setText("Add weapon");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         jLabel18.setText("Level");
 
@@ -531,8 +539,16 @@ public class GeneralViwer extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+       new CharacterForm().setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        try {
+            new WeaponForm().setVisible(true);
+        } catch (IOException ex) {
+            Logger.getLogger(GeneralViwer.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     /**
      * @param args the command line arguments
