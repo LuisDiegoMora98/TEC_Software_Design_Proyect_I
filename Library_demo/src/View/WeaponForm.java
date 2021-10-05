@@ -30,7 +30,7 @@ public class WeaponForm extends javax.swing.JFrame {
      */
     public WeaponForm() throws IOException {
         initComponents();
-        wcontroller = WeaponController.getInstance();
+        wcontroller = new WeaponController();
         index = 0;
     }
     
