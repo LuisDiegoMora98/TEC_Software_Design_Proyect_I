@@ -74,6 +74,7 @@ public class JSONLoader {
         }
     }
 
+    
     public void writeJSON(Weapon pObject) throws IOException {
         try {
             BufferedWriter writer = new BufferedWriter(

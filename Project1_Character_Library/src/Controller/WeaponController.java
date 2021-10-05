@@ -20,11 +20,14 @@ import utils.JSONLoader;
 public class WeaponController {
     
     private final JSONLoader json;
-    private WeaponPrototypeFactory weaponPrototypes = new  WeaponPrototypeFactory();
-    public WeaponController() throws IOException{
+    private WeaponPrototypeFactory weaponPrototypes;
+    private HashMap<Integer, ArrayList<String>> aspects;
     
+    public WeaponController() throws IOException{
         this.json = JSONLoader.getInstance();
-        loadWapons();
+        this.weaponPrototypes = new  WeaponPrototypeFactory();
+        this.aspects = new HashMap<>();
+        loadWeapons();
     }
     
     public Weapon getWeapon(String name){
@@ -40,15 +43,13 @@ public class WeaponController {
     }
     
     
-    public Weapon crateWeapon(int scope, double damage, double explotionRange, 
-        boolean levelIncrease,String name, HashMap<Integer, ArrayList<String>> aspect, 
-        int level, double cost) throws IOException{
+    public Weapon createWeapon(int scope, double damage, double explotionRange, 
+        boolean levelIncrease,String name,int level, double cost) throws IOException{
+        // HashMap<Integer, ArrayList<String>> aspect
 
-        //No se le está pasando el aspect, pero en realidad puede ser una lista de images
-        //y otra de cant de niveles, o un array de array si es posible
         Weapon weapon = new Weapon.WeaponBuilder().setName(name)
                 .setScope(scope)
-                .setAspect(aspect)
+                .setAspect(this.aspects)
                 .setDamage(damage)
                 .setExplotionRange(explotionRange)
                 .setLevel(level)
@@ -56,12 +57,17 @@ public class WeaponController {
                 .setCost(cost)
                 .build();
         
+        aspects.clear();  
         weaponPrototypes.addPrototype(name, weapon);
         json.writeJSON(weapon);
         return weapon;
     }
     
-    private void loadWapons(){
+    public void insertWeaponLevel(int level, ArrayList<String> images){
+        aspects.put(level, images);
+    }
+    
+    private void loadWeapons(){
         ArrayList<Weapon> weapons = json.getWeapons();
         weapons.forEach(weapon -> {
             weaponPrototypes.addPrototype(weapon.getName(), weapon);

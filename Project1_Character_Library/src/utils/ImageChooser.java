@@ -38,7 +38,7 @@ public class ImageChooser {
         FileFilter filter = new FileNameExtensionFilter ("Archivo de imagen", "JPG", "JPEG", "GIF", "PNG"); 
         //Filter to choose only images
 	chooser.setFileFilter(filter);
-        
+        //chooser.setCurrentDirectory(new File("src/images/"));
         int returnVal = chooser.showSaveDialog(parent);
         
         if (returnVal == JFileChooser.APPROVE_OPTION) {
