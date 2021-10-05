@@ -20,7 +20,7 @@ import java.util.logging.Logger;
 public class Main {
     
     public static void main (String [] args){
-         CharacterController characters = null;
+        /* CharacterController characters = null;
          WeaponController weapons = null;
         try {
             characters = CharacterController.getInstance();
@@ -59,7 +59,7 @@ public class Main {
             characters.createCharacter("Creeper", 2, 25, 10, 7, 9, Direction.WEST, w, w.get(0), 0, weaponsAspect);
         } catch (IOException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        }*/
         ControllerViewer.getInstance().init();
     }
     
