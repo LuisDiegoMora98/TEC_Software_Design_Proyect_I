@@ -10,6 +10,7 @@ package Controller;
  * @author LDAZ
  */
 
+import Model.IPrototype;
 import Model.WeaponPrototypeFactory;
 import java.util.ArrayList;
 import Model.Weapon;
@@ -22,13 +23,24 @@ public class WeaponController {
     private final JSONLoader json;
     private WeaponPrototypeFactory weaponPrototypes;
     private HashMap<Integer, ArrayList<String>> aspects;
+    private static WeaponController weaponController;
     
-    public WeaponController() throws IOException{
+    private WeaponController() throws IOException{
+    
         this.json = JSONLoader.getInstance();
         this.weaponPrototypes = new  WeaponPrototypeFactory();
         this.aspects = new HashMap<>();
         loadWeapons();
     }
+    
+    
+    public static WeaponController getInstance() throws IOException{
+        if(weaponController == null){
+            weaponController = new WeaponController();
+        }
+        return weaponController;
+    }
+    
     
     public Weapon getWeapon(String name){
         return (Weapon)weaponPrototypes.getPrototypeDeepClone(name);
@@ -42,6 +54,17 @@ public class WeaponController {
         return weapons;
     }
     
+    
+    public ArrayList<Weapon> getAllWeapons(){
+        ArrayList<IPrototype> list = new ArrayList<>((
+                (WeaponPrototypeFactory)this.weaponPrototypes)
+                .getPrototypes().values());
+        ArrayList<Weapon> finalList = new ArrayList<>();
+        list.forEach(it -> {
+            finalList.add((Weapon)it);
+        });
+        return finalList;
+    }
     
     public Weapon createWeapon(int scope, double damage, double explotionRange, 
         boolean levelIncrease,String name,int level, double cost) throws IOException{
