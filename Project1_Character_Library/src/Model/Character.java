@@ -25,7 +25,6 @@ public class Character extends GameEntity implements IPrototype<Character>{
     private Direction direction;
 
     public Character() {
-        super("", null, 0,0);
     }
 
     public Character(int life, double hitsPerTime, double fieldsInArmy, int levelRequired, 
@@ -39,12 +38,10 @@ public class Character extends GameEntity implements IPrototype<Character>{
         this.weapons = weapons;
         this.currentWeapon = currentWeapon;
         this.direction = direction;
-       
     }
 
-    /*public Character(int life, double hitsPerTime, double fieldsInArmy, int levelRequired, 
+    public Character(int life, double hitsPerTime, double fieldsInArmy, int levelRequired, 
             ArrayList<Weapon> weapons, Weapon currentWeapon, Direction direction) {
-        
         this.life = life;
         this.hitsPerTime = hitsPerTime;
         this.fieldsInArmy = fieldsInArmy;
@@ -53,7 +50,7 @@ public class Character extends GameEntity implements IPrototype<Character>{
         this.currentWeapon = currentWeapon;
         this.direction = direction;
     }
-*/
+
     
   
     public int getLife() {

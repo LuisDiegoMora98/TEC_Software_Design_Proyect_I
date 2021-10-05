@@ -10,7 +10,6 @@ package Controller;
  * @author LDAZ
  */
 
-import Model.IPrototype;
 import Model.WeaponPrototypeFactory;
 import java.util.ArrayList;
 import Model.Weapon;
@@ -21,20 +20,11 @@ import utils.JSONLoader;
 public class WeaponController {
     
     private final JSONLoader json;
-    private static WeaponController weaponController;
     private WeaponPrototypeFactory weaponPrototypes = new  WeaponPrototypeFactory();
-    private WeaponController() throws IOException{
+    public WeaponController() throws IOException{
     
         this.json = JSONLoader.getInstance();
         loadWapons();
-    }
-    
-    
-    public static WeaponController getInstance() throws IOException{
-        if(weaponController == null){
-            weaponController = new WeaponController();
-        }
-        return weaponController;
     }
     
     public Weapon getWeapon(String name){
@@ -69,17 +59,6 @@ public class WeaponController {
         weaponPrototypes.addPrototype(name, weapon);
         json.writeJSON(weapon);
         return weapon;
-    }
-    
-    public ArrayList<Weapon> getAllWeapons(){
-        ArrayList<IPrototype> list = new ArrayList<>((
-                (WeaponPrototypeFactory)this.weaponPrototypes)
-                .getPrototypes().values());
-        ArrayList<Weapon> finalList = new ArrayList<>();
-        list.forEach(it -> {
-            finalList.add((Weapon)it);
-        });
-        return finalList;
     }
     
     private void loadWapons(){
