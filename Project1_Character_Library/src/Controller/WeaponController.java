@@ -34,7 +34,7 @@ public class WeaponController {
     }
     
     
-    public static WeaponController getInstance() throws IOException{
+    public synchronized static WeaponController getInstance() throws IOException{
         if(weaponController == null){
             weaponController = new WeaponController();
         }

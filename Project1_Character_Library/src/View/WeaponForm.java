@@ -5,7 +5,7 @@
  */
 package View;
 
-import Controller.WeaponController;
+import Controller.GeneralViewerController;
 import java.awt.Image;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -21,19 +21,20 @@ import utils.ImageChooser;
  * @author lalem
  */
 public class WeaponForm extends javax.swing.JFrame {
-    
-    private WeaponController wcontroller;
+
+    private GeneralViewerController controller;
     private ArrayList<String> images;
     private int index;
+
     /**
      * Creates new form WeaponForm for addding a new Weapon
      */
-    public WeaponForm() throws IOException {
+    public WeaponForm() {
         initComponents();
-        wcontroller = WeaponController.getInstance();
         index = 0;
+        controller = GeneralViewerController.getInstance();
+        //JOptionPane.showMessageDialog(null, "Weapon created!","Error",JOptionPane.ERROR_MESSAGE);
     }
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -325,15 +326,15 @@ public class WeaponForm extends javax.swing.JFrame {
         boolean levelIncrease = chkLevelIncrease.isSelected();
         double cost = Double.parseDouble(txtCost.getText());
         int initialLevel = Integer.parseInt(txtInitialLevel.getText());
-        
-        try {  
-            createWeapon(scope,damage,explotionRange,levelIncrease,name,initialLevel,cost);
+
+        try {
+            createWeapon(scope, damage, explotionRange, levelIncrease, name, initialLevel, cost);
             JOptionPane.showMessageDialog(null, "Weapon created!");
         } catch (IOException ex) {
             Logger.getLogger(WeaponForm.class.getName()).log(Level.SEVERE, null, ex);
         }
         cleanTextFields();
-        
+
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void txtNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNameActionPerformed
@@ -341,7 +342,7 @@ public class WeaponForm extends javax.swing.JFrame {
     }//GEN-LAST:event_txtNameActionPerformed
 
     private void btnOpenFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOpenFileActionPerformed
-       openFile(lblImage);  
+        openFile(lblImage);
     }//GEN-LAST:event_btnOpenFileActionPerformed
 
     private void btnPreviousActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPreviousActionPerformed
@@ -349,7 +350,7 @@ public class WeaponForm extends javax.swing.JFrame {
     }//GEN-LAST:event_btnPreviousActionPerformed
 
     private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
-        nextImage(lblImage); 
+        nextImage(lblImage);
     }//GEN-LAST:event_btnNextActionPerformed
 
     private void chkLevelIncreaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkLevelIncreaseActionPerformed
@@ -357,7 +358,7 @@ public class WeaponForm extends javax.swing.JFrame {
     }//GEN-LAST:event_chkLevelIncreaseActionPerformed
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        addLevelAspect(txtLevel,txtPath,lblImage); 
+        addLevelAspect(txtLevel, txtPath, lblImage);
         lblImage.setIcon(null);
         txtLevel.setText("");
         txtPath.setText("");
@@ -367,41 +368,39 @@ public class WeaponForm extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtLevelActionPerformed
 
-    
-    
     //Methods
-    public void openFile(javax.swing.JLabel label){
-        
+    public void openFile(javax.swing.JLabel label) {
+
         images = new ArrayList<>(); //Se inicializa el arreglo
         try {
             images = ImageChooser.Choose();
-            String strPaths = images.toString().replace("[", "").replace("]", ""); 
-            txtPath.setText(strPaths);  
+            String strPaths = images.toString().replace("[", "").replace("]", "");
+            txtPath.setText(strPaths);
         } catch (IOException ex) {
             Logger.getLogger(WeaponForm.class.getName()).log(Level.SEVERE, null, ex);
         }
-      
+
         try {
             Image img;
             ImageIcon icono = new ImageIcon();
-            img = img = ImageChooser.getImage(lblImage.getWidth(),lblImage.getHeight(),images.get(0));
-            if(img != null){
+            img = img = ImageChooser.getImage(lblImage.getWidth(), lblImage.getHeight(), images.get(0));
+            if (img != null) {
                 icono.setImage(img);
                 label.setIcon(icono);
             }
         } catch (IOException ex) {
         }
-    
+
     }
-    
-    public void previousImage(javax.swing.JLabel label){
-        if(index>0){
+
+    public void previousImage(javax.swing.JLabel label) {
+        if (index > 0) {
             try {
-                index = index-1;
+                index = index - 1;
                 Image img;
                 ImageIcon icono = new ImageIcon();
-                img = ImageChooser.getImage(label.getWidth(),label.getHeight(),images.get(index));
-                if(img != null){
+                img = ImageChooser.getImage(label.getWidth(), label.getHeight(), images.get(index));
+                if (img != null) {
                     icono.setImage(img);
                     label.setIcon(icono);
                 }
@@ -409,15 +408,15 @@ public class WeaponForm extends javax.swing.JFrame {
             }
         }
     }
-    
-    public void nextImage(javax.swing.JLabel label){
-        if(index<images.size()-1){
+
+    public void nextImage(javax.swing.JLabel label) {
+        if (index < images.size() - 1) {
             try {
-                index = index+1;
+                index = index + 1;
                 Image img;
                 ImageIcon icono = new ImageIcon();
-                img = ImageChooser.getImage(label.getWidth(),label.getHeight(),images.get(index));
-                if(img != null){
+                img = ImageChooser.getImage(label.getWidth(), label.getHeight(), images.get(index));
+                if (img != null) {
                     icono.setImage(img);
                     label.setIcon(icono);
                 }
@@ -425,21 +424,22 @@ public class WeaponForm extends javax.swing.JFrame {
             }
         }
     }
-    
-    public void addLevelAspect(javax.swing.JTextField txtlevel, javax.swing.JTextField txtpath, javax.swing.JLabel lblimage){
+
+    public void addLevelAspect(javax.swing.JTextField txtlevel, javax.swing.JTextField txtpath, javax.swing.JLabel lblimage) {
         int level = Integer.parseInt(txtlevel.getText());
         ArrayList<String> paths = new ArrayList<>(Arrays.asList(txtpath.getText().split(",")));
-        wcontroller.insertWeaponLevel(level, paths);
+        controller.insertWeaponLevel(level, paths);
     }
-    
-    public void createWeapon(int scope, double damage, double explotionRange, 
-                             boolean levelIncrease,String name,int level,double cost) throws IOException{
-    
-        wcontroller.createWeapon(scope,damage,explotionRange,levelIncrease,name,level,cost);
-    
+
+    public void createWeapon(int scope, double damage, double explotionRange,
+            boolean levelIncrease, String name, int level, double cost) throws IOException {
+
+        controller.createWeapon(scope, damage, explotionRange, levelIncrease, name, level, cost);
+
     }
-    
-    public void cleanTextFields(){
+
+    public void cleanTextFields() {
+        txtName.setText("");
         txtScope.setText("");
         txtDamage.setText("");
         txtExplotion.setText("");
@@ -450,10 +450,7 @@ public class WeaponForm extends javax.swing.JFrame {
         txtLevel.setText("");
         lblImage.setIcon(null);
     }
-    
-    
-    
-    
+
     /**
      * @param args the command line arguments
      */
@@ -484,11 +481,7 @@ public class WeaponForm extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                try {
-                    new WeaponForm().setVisible(true);
-                } catch (IOException ex) {
-                    Logger.getLogger(WeaponForm.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                new WeaponForm().setVisible(true);
             }
         });
     }

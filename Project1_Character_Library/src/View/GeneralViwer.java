@@ -8,10 +8,7 @@ package View;
 import Controller.GeneralViewerController;
 import Model.Weapon;
 import Model.Character;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.AbstractListModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -543,11 +540,7 @@ public class GeneralViwer extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        try {
-            new WeaponForm().setVisible(true);
-        } catch (IOException ex) {
-            Logger.getLogger(GeneralViwer.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        new WeaponForm().setVisible(true);
     }//GEN-LAST:event_jButton4ActionPerformed
 
     /**
