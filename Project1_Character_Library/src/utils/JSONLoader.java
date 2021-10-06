@@ -47,16 +47,23 @@ public class JSONLoader {
     }
     
     private class ObjFormat{
-        public ArrayList<Character> characters;
-        public ArrayList<Weapon> weapons;
+        public ArrayList<Character> characters = new ArrayList<>();
+        public ArrayList<Weapon> weapons = new ArrayList<>();
     }
 
     private void readJSON() throws FileNotFoundException, IOException {
         try {
-            InputStream is = new FileInputStream(this.URL);
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(is));
-            this.data = json.fromJson(bufferedReader, ObjFormat.class);
-            bufferedReader.close();
+            if(new File(this.URL).exists()){
+                InputStream is = new FileInputStream(this.URL);
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(is));
+                ObjFormat data = json.fromJson(bufferedReader, ObjFormat.class);
+                System.out.println(data);
+                System.out.println(data !=  null);
+                if (data !=  null){
+                    this.data = data;
+                }
+                bufferedReader.close();
+            }
         } catch (JsonIOException | JsonSyntaxException | IOException e) {
             System.out.println(e);
         }
@@ -67,6 +74,7 @@ public class JSONLoader {
             BufferedWriter writer = new BufferedWriter(
                     new FileWriter(new File(this.URL)));
             this.data.characters.add(pObject);
+            System.out.println(json.toJson(pObject.getAspect()));
             writer.write(json.toJson(this.data));
             writer.close();
         } catch (IOException e) {
@@ -94,5 +102,7 @@ public class JSONLoader {
     public ArrayList<Weapon> getWeapons(){
         return this.data.weapons;
     }
+    
+
 
 }
