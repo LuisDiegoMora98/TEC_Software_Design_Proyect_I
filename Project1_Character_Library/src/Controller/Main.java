@@ -20,7 +20,7 @@ import java.util.logging.Logger;
 public class Main {
     
     public static void main (String [] args){
-        /* CharacterController characters = null;
+          CharacterController characters = null;
          WeaponController weapons = null;
         try {
             characters = CharacterController.getInstance();
@@ -38,13 +38,13 @@ public class Main {
         
         HashMap<Integer, ArrayList<String>> weaponsAspect = new HashMap<>(); 
         ArrayList skins = new ArrayList<String>();
-        skins.add("Skin 1");
+        skins.add("src\\resources\\Enderman.png");
         weaponsAspect.put(1, skins);
-        skins.set(0, "skin 2");
+        skins.add( "skin 2");
         weaponsAspect.put(1, skins);
-        skins.set(0, "skin 3");
+        skins.add( "skin 3");
         weaponsAspect.put(1, skins);
-        skins.set(0, "skin 4");
+        skins.add("src\\resources\\Enderman_con_bloque.png");
         weaponsAspect.put(1, skins);
           try {
             weapons.createWeapon(10, 6, 9, true, "Espada de madera", 9, 7);
@@ -59,7 +59,7 @@ public class Main {
             characters.createCharacter("Creeper", 2, 25, 10, 7, 9, Direction.WEST, w, w.get(0), 0, weaponsAspect);
         } catch (IOException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-        }*/
+        }
         GeneralViewerController.getInstance().init();
     }
     

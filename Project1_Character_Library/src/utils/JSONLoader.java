@@ -8,6 +8,7 @@ package utils;
 import Model.Character;
 import Model.Weapon;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 import java.io.BufferedReader;
