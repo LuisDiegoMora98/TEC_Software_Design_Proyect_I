@@ -6,6 +6,7 @@
 package View;
 
 import Controller.GeneralViewerController;
+import Model.Weapon;
 import java.awt.Image;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -431,10 +432,10 @@ public class WeaponForm extends javax.swing.JFrame {
         controller.insertWeaponLevel(level, paths);
     }
 
-    public void createWeapon(int scope, double damage, double explotionRange,
+    public Weapon createWeapon(int scope, double damage, double explotionRange,
             boolean levelIncrease, String name, int level, double cost) throws IOException {
 
-        controller.createWeapon(scope, damage, explotionRange, levelIncrease, name, level, cost);
+        return controller.createWeapon(scope, damage, explotionRange, levelIncrease, name, level, cost);
 
     }
 

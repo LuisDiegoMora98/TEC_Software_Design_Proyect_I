@@ -24,11 +24,15 @@ public class CharacterController {
     
     private final JSONLoader json;
     private ICreator factory;
+    private HashMap<Integer, ArrayList<String>> aspects;
+    private ArrayList<Weapon> weapons;
     private static CharacterController controller;
     
     private CharacterController() throws IOException{
         this.json = JSONLoader.getInstance();
         this.factory = new CharacterPrototypeFactory();
+        this.aspects = new HashMap<>();
+        this.weapons = new ArrayList<>();
         if(!json.getCharacters().isEmpty()){
             this.loadCharacters();
         }
@@ -48,11 +52,9 @@ public class CharacterController {
         });
     }
     
-    public void createCharacter(String pName, int pLife, int pLevelReq,
-                                int pLevel, int pHitsPerTime, int pFields,
-                                Direction pDirection, ArrayList<Weapon> pWeapons,
-                                Weapon pCurrent, int pCost, HashMap<Integer, 
-                                ArrayList<String>> pAspects) throws IOException{
+    public Character createCharacter(String pName, int pLife, int pLevelReq,
+                                int pLevel, double pHitsPerTime, double pFields,
+                                Direction pDirection,int pCost) throws IOException{
         Character character = new Character.CharacterBuilder()
                 .setName(pName)
                 .setLife(pLife)
@@ -61,13 +63,16 @@ public class CharacterController {
                 .setHitsPerTime(pHitsPerTime)
                 .setFieldsInArmy(pFields)
                 .setDirection(pDirection)
-                .setWeapons(pWeapons)
-                .setCurrentWeapon(pCurrent)
+                .setWeapons(this.weapons)
                 .setCost(pCost)
-                .setAspect(pAspects)
+                .setAspect(this.aspects)
                 .build();
         this.factory.addPrototype(pName, character);
         this.json.writeJSON(character);
+        aspects.clear();
+        weapons.clear();
+        return character;
+        
     }
     
     public ArrayList<Character> getManyCharacters(String pName, int pQuantity){
@@ -91,5 +96,17 @@ public class CharacterController {
             finalList.add((Character)it);
         });
         return finalList;
+    }
+    
+    public ArrayList<Weapon> getWeapons(Character character){
+        return character.getWeapons();
+    }
+            
+    public void insertCharacterLevel(int level, ArrayList<String> images){
+        this.aspects.put(level, images);
+    }
+    
+    public void insertWeapons(Weapon weapon){
+        this.weapons.add(weapon);
     }
 }

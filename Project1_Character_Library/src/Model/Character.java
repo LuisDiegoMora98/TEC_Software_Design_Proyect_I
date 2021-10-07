@@ -154,6 +154,8 @@ public class Character extends GameEntity implements IPrototype<Character>{
         
         public CharacterBuilder() {
             this.aspect = new HashMap<>();
+            currentWeapon = null;
+            weapons = new ArrayList<>();
         }
    
         public CharacterBuilder setName(String name) {
