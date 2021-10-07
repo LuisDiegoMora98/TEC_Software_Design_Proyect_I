@@ -36,7 +36,7 @@ public class Main {
         
         // PRUEBAS, SE PUEDE BORRAR EN CUALQUIER MOMENTO
         
-        HashMap<Integer, ArrayList<String>> weaponsAspect = new HashMap<>(); 
+        /*HashMap<Integer, ArrayList<String>> weaponsAspect = new HashMap<>(); 
         ArrayList skins = new ArrayList<String>();
         skins.add("src\\resources\\Enderman.png");
         weaponsAspect.put(1, skins);
@@ -59,7 +59,7 @@ public class Main {
             characters.createCharacter("Creeper", 2, 25, 10, 7, 9, Direction.WEST, w, w.get(0), 0, weaponsAspect);
         } catch (IOException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        }*/
         GeneralViewerController.getInstance().init();
     }
     

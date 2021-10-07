@@ -8,6 +8,7 @@ package View;
 import Controller.GeneralViewerController;
 import Model.Weapon;
 import Model.Character;
+import java.util.ArrayList;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
@@ -52,16 +53,7 @@ public class GeneralViwer extends javax.swing.JFrame {
             @Override
             public void valueChanged(ListSelectionEvent arg){
                  if (!arg.getValueIsAdjusting()){
-                     Character selectedCharacter = characterModel.getCharacter(characterList.getSelectedIndex());
-                     nameLabel.setText(selectedCharacter.getName());
-                     levelLabel.setText("" + selectedCharacter.getLevel());
-                     costLabel.setText("" + selectedCharacter.getCost());
-                     characterLife.setText("" + selectedCharacter.getLife());
-                     characterHitsPerTime.setText("" + selectedCharacter.getHitsPerTime());
-                     characterWeaponModel.setEntities(selectedCharacter.getWeapons());
-                     CharacterLevelRequired.setText("" + selectedCharacter.getLevelRequired());
-                     setCharacterIcon(selectedCharacter, 1,0);
-                     characterWeaponList.updateUI();
+                     setCharacterData(characterModel.getCharacter(characterList.getSelectedIndex()));
                  }
             }
         });
@@ -74,15 +66,8 @@ public class GeneralViwer extends javax.swing.JFrame {
             @Override
             public void valueChanged(ListSelectionEvent arg){
                 if(!arg.getValueIsAdjusting()){
-                    Weapon selectedWeapon = characterWeaponModel.getWeapon(characterWeaponList.getSelectedIndex());
-                    characterWeaponName.setText(selectedWeapon.getName());
-                    characterWeaponLevel.setText("" + selectedWeapon.getLevel());
-                    characterWeaponCost.setText("" + selectedWeapon.getCost());
-                    characterWeaponScope.setText("" + selectedWeapon.getScope());
-                    characterWeaponDamage.setText("" + selectedWeapon.getDamage());
-                    characterWeaponExplotionRange.setText("" + selectedWeapon.getExplotionRange());
-                    //characterWeaponLevelIncrease.setText("" + selectedWeapon.ge);
-                    setCharacterWeaponIcon(selectedWeapon, 1,0);
+                    setCharacterWeaponData(characterWeaponModel.getWeapon(characterWeaponList.getSelectedIndex()));
+                    
                 }
             }
         });
@@ -96,20 +81,46 @@ public class GeneralViwer extends javax.swing.JFrame {
             @Override
             public void valueChanged(ListSelectionEvent arg){
                 if(!arg.getValueIsAdjusting()){
-                    Weapon selectedWeapon = weaponModel.getWeapon(weaponList.getSelectedIndex());
-                    weaponName.setText(selectedWeapon.getName());
-                    weaponLevel.setText("" + selectedWeapon.getLevel());
-                    weaponCost.setText("" + selectedWeapon.getCost());
-                    weaponScope.setText("" + selectedWeapon.getScope());
-                    weaponDamage.setText("" + selectedWeapon.getDamage());
-                    weaponExplotionRange.setText("" + selectedWeapon.getExplotionRange());
-                    setWeaponIcon(selectedWeapon,1,0);
-                    //characterWeaponLevelIncrease.setText("" + selectedWeapon.ge);
+                   setWeaponData(weaponModel.getWeapon(weaponList.getSelectedIndex()));
                 }
             }
         });
     }
     
+    private void setCharacterData(Character selectedCharacter){
+        nameLabel.setText(selectedCharacter.getName());
+        levelLabel.setText("" + selectedCharacter.getLevel());
+        costLabel.setText("" + selectedCharacter.getCost());
+        characterLife.setText("" + selectedCharacter.getLife());
+        characterHitsPerTime.setText("" + selectedCharacter.getHitsPerTime());
+        characterWeaponModel.setEntities(selectedCharacter.getWeapons());
+        CharacterLevelRequired.setText("" + selectedCharacter.getLevelRequired());
+        setCharacterIcon(selectedCharacter, 1,0);
+        characterWeaponList.updateUI();
+    }
+    
+    private void setCharacterWeaponData(Weapon selectedWeapon){
+        characterWeaponName.setText(selectedWeapon.getName());
+        characterWeaponLevel.setText("" + selectedWeapon.getLevel());
+        characterWeaponCost.setText("" + selectedWeapon.getCost());
+        characterWeaponScope.setText("" + selectedWeapon.getScope());
+        characterWeaponDamage.setText("" + selectedWeapon.getDamage());
+        characterWeaponExplotionRange.setText("" + selectedWeapon.getExplotionRange());
+        //characterWeaponLevelIncrease.setText("" + selectedWeapon.ge);
+        setCharacterWeaponIcon(selectedWeapon, 1,0);
+    }
+    
+    private void setWeaponData(Weapon selectedWeapon){
+        
+        weaponName.setText(selectedWeapon.getName());
+        weaponLevel.setText("" + selectedWeapon.getLevel());
+        weaponCost.setText("" + selectedWeapon.getCost());
+        weaponScope.setText("" + selectedWeapon.getScope());
+        weaponDamage.setText("" + selectedWeapon.getDamage());
+        weaponExplotionRange.setText("" + selectedWeapon.getExplotionRange());
+        setWeaponIcon(selectedWeapon,1,0);
+        //characterWeaponLevelIncrease.setText("" + selectedWeapon.ge);
+    }
     private ImageIcon getIcon(String path){
         try {
             if(new File(path).exists()){
@@ -634,11 +645,7 @@ public class GeneralViwer extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        try {
-            new WeaponForm().setVisible(true);
-        } catch (IOException ex) {
-            Logger.getLogger(GeneralViwer.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        new WeaponForm().setVisible(true);
     }//GEN-LAST:event_jButton4ActionPerformed
 
     /**

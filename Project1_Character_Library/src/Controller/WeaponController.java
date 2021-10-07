@@ -34,7 +34,7 @@ public class WeaponController {
     }
     
     
-    public static WeaponController getInstance() throws IOException{
+    public synchronized static WeaponController getInstance() throws IOException{
         if(weaponController == null){
             weaponController = new WeaponController();
         }
@@ -69,10 +69,11 @@ public class WeaponController {
     public Weapon createWeapon(int scope, double damage, double explotionRange, 
         boolean levelIncrease,String name,int level, double cost) throws IOException{
         // HashMap<Integer, ArrayList<String>> aspect
-
+        HashMap<Integer, ArrayList<String>> weaponAspect = new HashMap<>();
+        weaponAspect.putAll(aspects);
         Weapon weapon = new Weapon.WeaponBuilder().setName(name)
                 .setScope(scope)
-                .setAspect(this.aspects)
+                .setAspect(weaponAspect)
                 .setDamage(damage)
                 .setExplotionRange(explotionRange)
                 .setLevel(level)

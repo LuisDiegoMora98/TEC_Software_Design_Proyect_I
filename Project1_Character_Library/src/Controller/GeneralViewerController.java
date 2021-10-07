@@ -36,7 +36,7 @@ public class GeneralViewerController {
         
     }
     
-    public static GeneralViewerController getInstance(){
+    public synchronized static GeneralViewerController getInstance(){
         if(controllerViewer == null){
             controllerViewer = new GeneralViewerController();
         }
@@ -58,5 +58,15 @@ public class GeneralViewerController {
     
     public void refresh(){
     
+    }
+        
+    public Weapon createWeapon(int scope, double damage, double explotionRange, 
+        boolean levelIncrease,String name,int level, double cost) throws IOException{
+
+        return weapons.createWeapon(scope, damage, explotionRange, levelIncrease, name, level, cost);
+    }
+    
+    public void insertWeaponLevel(int level, ArrayList<String> images){
+        weapons.insertWeaponLevel(level, images);
     }
 }

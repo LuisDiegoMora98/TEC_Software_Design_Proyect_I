@@ -34,7 +34,7 @@ public class CharacterController {
         }
     }
     
-    public static CharacterController getInstance() throws IOException{
+    public synchronized static CharacterController getInstance() throws IOException{
         if(CharacterController.controller != null){
             return controller;
         }
