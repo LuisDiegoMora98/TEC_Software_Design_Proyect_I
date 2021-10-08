@@ -55,6 +55,9 @@ public class GeneralViwer extends javax.swing.JFrame {
         initcharacterLevelCombo();
         initcharacterVariationCombo();
         initcharacterWeaponLevelCombo();
+        initcharacterWeaponVariationCombo();
+        initWeaponLevelCombo();
+        initWeaponVariationCombo();
     }
 
     private void initCharacterList(){
@@ -104,12 +107,13 @@ public class GeneralViwer extends javax.swing.JFrame {
     
     private void initcharacterWeaponLevelCombo(){
         characterWeaponLevelCombo.removeAllItems();
-        characterLevelCombo.addActionListener (new ActionListener () {
+        characterWeaponLevelCombo.addActionListener (new ActionListener () {
             public void actionPerformed(ActionEvent e) {
                 if(characterWeaponLevelCombo.getSelectedItem() != null){
                     int index = Integer.parseInt((String)characterWeaponLevelCombo.getSelectedItem());
-                    int variants = selectedWeapon.getAspect().get(index).size();
+                    int variants = selectedCharacterWeapon.getAspect().get(index).size();
                     characterWeaponVariantCombo.removeAllItems();
+                    System.out.println(variants);
                     for(int i = 0; i < variants; i++ ){
                         characterWeaponVariantCombo.addItem(i + "");
                     }
@@ -117,6 +121,25 @@ public class GeneralViwer extends javax.swing.JFrame {
         }
         });
     }
+    
+    private void initWeaponLevelCombo(){
+        weaponLevelCombo.removeAllItems();
+        weaponLevelCombo.addActionListener (new ActionListener () {
+            public void actionPerformed(ActionEvent e) {
+                if(weaponLevelCombo.getSelectedItem() != null){
+                    int index = Integer.parseInt((String)weaponLevelCombo.getSelectedItem());
+                    int variants = selectedWeapon.getAspect().get(index).size();
+                    weaponVariantCombo.removeAllItems();
+                    System.out.println(variants);
+                    for(int i = 0; i < variants; i++ ){
+                        weaponVariantCombo.addItem(i + "");
+                    }
+                }
+        }
+        });
+    }
+    
+    
     
     private void initcharacterVariationCombo(){
         characterVariantCombo.removeAllItems();
@@ -133,15 +156,36 @@ public class GeneralViwer extends javax.swing.JFrame {
         });
     }
     
-     public void actionPerformed(ActionEvent e) {
-        JComboBox cb = (JComboBox)e.getSource();
-        int index = Integer.parseInt((String)characterLevelCombo.getSelectedItem());
-        int variants = selectedCharacter.getAspect().get(index).size();
-        for(int i = 0; i < variants; i++ ){
-            characterVariantCombo.addItem(i + "");
-        }
-        
-   }
+    private void initcharacterWeaponVariationCombo(){
+        characterWeaponVariantCombo.removeAllItems();
+        characterWeaponVariantCombo.addActionListener (new ActionListener () {
+            public void actionPerformed(ActionEvent e) {
+                if(characterWeaponLevelCombo.getSelectedItem() != null && characterWeaponVariantCombo.getSelectedItem() != null){
+                    int index = Integer.parseInt((String)characterWeaponLevelCombo.getSelectedItem());
+                    int variant = Integer.parseInt((String)characterWeaponVariantCombo.getSelectedItem());
+                    String path = selectedCharacterWeapon.getAspect().get(index).get(variant);
+                    ImageIcon icon = getIcon(path);
+                    characterWeaponPreview.setIcon(icon);
+                }
+            }
+        });
+    }
+    
+    
+     private void initWeaponVariationCombo(){
+        weaponVariantCombo.removeAllItems();
+        weaponVariantCombo.addActionListener (new ActionListener () {
+            public void actionPerformed(ActionEvent e) {
+                if(weaponLevelCombo.getSelectedItem() != null && weaponVariantCombo.getSelectedItem() != null){
+                    int index = Integer.parseInt((String)weaponLevelCombo.getSelectedItem());
+                    int variant = Integer.parseInt((String)weaponVariantCombo.getSelectedItem());
+                    String path = selectedWeapon.getAspect().get(index).get(variant);
+                    ImageIcon icon = getIcon(path);
+                   weaponPreview.setIcon(icon);
+                }
+            }
+        });
+    }
     
     private void initWeaponList(){
         weaponList.setModel(weaponModel);
@@ -169,9 +213,7 @@ public class GeneralViwer extends javax.swing.JFrame {
         setCharacterIcon(selectedCharacter, 1,0);
         Set<Integer> levels = selectedCharacter.getAspect().keySet();
         System.out.println(levels);
-        //characterLevelCombo.addItem("1");
         characterLevelCombo.removeAllItems();
-        //characterLevelCombo.addItem("2");
         levels.forEach(level -> {
                 characterLevelCombo.addItem(level + "");
             
@@ -208,6 +250,13 @@ public class GeneralViwer extends javax.swing.JFrame {
         weaponExplotionRange.setText("" + selectedWeapon.getExplotionRange());
         //setWeaponIcon(selectedWeapon,1,0);
         //characterWeaponLevelIncrease.setText("" + selectedWeapon.ge);
+         if(selectedWeapon.getAspect().keySet() != null){
+            Set<Integer> levels = selectedWeapon.getAspect().keySet();
+            for (int level : levels){
+                weaponLevelCombo.addItem(level + "");
+            }
+            setCharacterWeaponIcon(selectedWeapon, 1,0);
+        }
     }
     private ImageIcon getIcon(String path){
         try {
@@ -310,6 +359,7 @@ public class GeneralViwer extends javax.swing.JFrame {
         characterVariantCombo = new javax.swing.JComboBox<>();
         characterWeaponLevelCombo = new javax.swing.JComboBox<>();
         characterWeaponVariantCombo = new javax.swing.JComboBox<>();
+        jButton2 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         weaponPreview = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
@@ -330,6 +380,9 @@ public class GeneralViwer extends javax.swing.JFrame {
         weaponDamage = new javax.swing.JLabel();
         weaponExplotionRange = new javax.swing.JLabel();
         weaponLevelIncrese = new javax.swing.JLabel();
+        jButton3 = new javax.swing.JButton();
+        weaponLevelCombo = new javax.swing.JComboBox<>();
+        weaponVariantCombo = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -418,21 +471,14 @@ public class GeneralViwer extends javax.swing.JFrame {
 
         characterWeaponVariantCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
+        jButton2.setText("Edit");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(34, 34, 34)
-                                .addComponent(jLabel1))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(39, 39, 39)
-                                .addComponent(jButton1)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(16, 16, 16)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -462,7 +508,18 @@ public class GeneralViwer extends javax.swing.JFrame {
                                 .addComponent(characterLevelCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(characterVariantCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(37, 37, 37)))))
+                                .addGap(37, 37, 37))))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(34, 34, 34)
+                                .addComponent(jLabel1))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(39, 39, 39)
+                                .addComponent(jButton1)
+                                .addGap(27, 27, 27)
+                                .addComponent(jButton2)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -592,7 +649,9 @@ public class GeneralViwer extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 385, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(52, 52, 52)
-                        .addComponent(jButton1)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton1)
+                            .addComponent(jButton2))
                         .addGap(10, 10, 10))))
         );
 
@@ -644,6 +703,12 @@ public class GeneralViwer extends javax.swing.JFrame {
 
         weaponLevelIncrese.setText(" ");
 
+        jButton3.setText("Edit");
+
+        weaponLevelCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        weaponVariantCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -655,35 +720,46 @@ public class GeneralViwer extends javax.swing.JFrame {
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(47, 47, 47)
-                        .addComponent(jButton4))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(28, 28, 28)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel13, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel22, javax.swing.GroupLayout.Alignment.LEADING))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(47, 47, 47)
+                                .addComponent(jButton4)
+                                .addGap(18, 18, 18)
+                                .addComponent(jButton3)
+                                .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(28, 28, 28)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel11)
-                                    .addComponent(jLabel10)
-                                    .addComponent(jLabel12)
-                                    .addComponent(jLabel18)
-                                    .addComponent(jLabel23))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(weaponName, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE)
-                                    .addComponent(weaponLevel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(weaponCost, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(weaponLevelIncrese, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(weaponExplotionRange, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(weaponDamage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(weaponScope, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)))
-                        .addComponent(weaponPreview, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(547, 547, 547))
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(jLabel13, javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel22, javax.swing.GroupLayout.Alignment.LEADING))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel11)
+                                            .addComponent(jLabel10)
+                                            .addComponent(jLabel12)
+                                            .addComponent(jLabel18)
+                                            .addComponent(jLabel23))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
+                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                            .addComponent(weaponName, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE)
+                                            .addComponent(weaponLevel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(weaponCost, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(weaponLevelIncrese, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(weaponExplotionRange, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(weaponDamage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(weaponScope, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)))
+                                .addComponent(weaponPreview, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(547, 547, 547))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(310, 310, 310)
+                        .addComponent(weaponLevelCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(weaponVariantCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -722,11 +798,17 @@ public class GeneralViwer extends javax.swing.JFrame {
                             .addComponent(jLabel10)
                             .addComponent(weaponLevelIncrese))
                         .addGap(38, 38, 38)
-                        .addComponent(jButton4)))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton4)
+                            .addComponent(jButton3))))
                 .addGap(33, 33, 33))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(weaponPreview, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(57, 57, 57)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(weaponLevelCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(weaponVariantCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -746,10 +828,6 @@ public class GeneralViwer extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       new CharacterForm().setVisible(true);
-    }//GEN-LAST:event_jButton1ActionPerformed
-
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         try {
             new WeaponForm().setVisible(true);
@@ -757,6 +835,10 @@ public class GeneralViwer extends javax.swing.JFrame {
             Logger.getLogger(GeneralViwer.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        new CharacterForm().setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -868,6 +950,8 @@ public class GeneralViwer extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> characterWeaponVariantCombo;
     private javax.swing.JLabel costLabel;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -904,10 +988,12 @@ public class GeneralViwer extends javax.swing.JFrame {
     private javax.swing.JLabel weaponDamage;
     private javax.swing.JLabel weaponExplotionRange;
     private javax.swing.JLabel weaponLevel;
+    private javax.swing.JComboBox<String> weaponLevelCombo;
     private javax.swing.JLabel weaponLevelIncrese;
     private javax.swing.JList<String> weaponList;
     private javax.swing.JLabel weaponName;
     private javax.swing.JLabel weaponPreview;
     private javax.swing.JLabel weaponScope;
+    private javax.swing.JComboBox<String> weaponVariantCombo;
     // End of variables declaration//GEN-END:variables
 }

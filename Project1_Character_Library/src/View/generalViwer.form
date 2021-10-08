@@ -51,19 +51,6 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
-                                      <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
-                                      <Component id="jButton1" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                              </Group>
-                              <EmptySpace max="32767" attributes="0"/>
-                          </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
                               <Component id="jScrollPane1" min="-2" pref="168" max="-2" attributes="0"/>
@@ -99,6 +86,21 @@
                                       <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
+                          </Group>
+                          <Group type="102" attributes="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="102" attributes="0">
+                                      <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
+                                      <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
+                                      <Component id="jButton1" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
+                                      <Component id="jButton2" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
+                              <EmptySpace max="32767" attributes="0"/>
                           </Group>
                       </Group>
                       <Group type="103" groupAlignment="0" attributes="0">
@@ -268,7 +270,10 @@
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="jScrollPane1" min="-2" pref="385" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="52" max="-2" attributes="0"/>
-                              <Component id="jButton1" min="-2" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="jButton1" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jButton2" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
                               <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -541,6 +546,11 @@
                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
               </AuxValues>
             </Component>
+            <Component class="javax.swing.JButton" name="jButton2">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Edit"/>
+              </Properties>
+            </Component>
           </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="jPanel2">
@@ -563,44 +573,58 @@
                       </Group>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
-                              <Component id="jButton4" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="102" attributes="0">
-                                      <Group type="103" groupAlignment="1" attributes="0">
-                                          <Component id="jLabel13" alignment="0" min="-2" max="-2" attributes="0"/>
-                                          <Component id="jLabel22" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                      <EmptySpace max="32767" attributes="0"/>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
+                                      <Component id="jButton4" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                                      <Component id="jButton3" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                                   </Group>
-                                  <Group type="102" attributes="0">
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="jLabel11" min="-2" max="-2" attributes="0"/>
-                                          <Component id="jLabel10" alignment="0" min="-2" max="-2" attributes="0"/>
-                                          <Component id="jLabel12" min="-2" max="-2" attributes="0"/>
-                                          <Component id="jLabel18" alignment="0" min="-2" max="-2" attributes="0"/>
-                                          <Component id="jLabel23" min="-2" max="-2" attributes="0"/>
+                                          <Group type="102" attributes="0">
+                                              <Group type="103" groupAlignment="1" attributes="0">
+                                                  <Component id="jLabel13" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="jLabel22" alignment="0" min="-2" max="-2" attributes="0"/>
+                                              </Group>
+                                              <EmptySpace max="32767" attributes="0"/>
+                                          </Group>
+                                          <Group type="102" attributes="0">
+                                              <Group type="103" groupAlignment="0" attributes="0">
+                                                  <Component id="jLabel11" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="jLabel10" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="jLabel12" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="jLabel18" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="jLabel23" min="-2" max="-2" attributes="0"/>
+                                              </Group>
+                                              <EmptySpace pref="39" max="32767" attributes="0"/>
+                                              <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                                                  <Component id="weaponName" pref="126" max="32767" attributes="0"/>
+                                                  <Component id="weaponLevel" alignment="0" max="32767" attributes="0"/>
+                                                  <Component id="weaponCost" alignment="0" max="32767" attributes="0"/>
+                                                  <Component id="weaponLevelIncrese" alignment="0" max="32767" attributes="0"/>
+                                                  <Component id="weaponExplotionRange" alignment="1" max="32767" attributes="0"/>
+                                                  <Component id="weaponDamage" alignment="1" max="32767" attributes="0"/>
+                                                  <Component id="weaponScope" alignment="0" max="32767" attributes="0"/>
+                                              </Group>
+                                              <EmptySpace pref="31" max="32767" attributes="0"/>
+                                          </Group>
                                       </Group>
-                                      <EmptySpace pref="39" max="32767" attributes="0"/>
-                                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                                          <Component id="weaponName" pref="126" max="32767" attributes="0"/>
-                                          <Component id="weaponLevel" alignment="0" max="32767" attributes="0"/>
-                                          <Component id="weaponCost" alignment="0" max="32767" attributes="0"/>
-                                          <Component id="weaponLevelIncrese" alignment="0" max="32767" attributes="0"/>
-                                          <Component id="weaponExplotionRange" alignment="1" max="32767" attributes="0"/>
-                                          <Component id="weaponDamage" alignment="1" max="32767" attributes="0"/>
-                                          <Component id="weaponScope" alignment="0" max="32767" attributes="0"/>
-                                      </Group>
-                                      <EmptySpace pref="31" max="32767" attributes="0"/>
+                                      <Component id="weaponPreview" min="-2" pref="131" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
-                              <Component id="weaponPreview" min="-2" pref="131" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="547" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="-2" pref="310" max="-2" attributes="0"/>
+                              <Component id="weaponLevelCombo" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="weaponVariantCombo" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace min="-2" pref="547" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -648,7 +672,10 @@
                                   <Component id="weaponLevelIncrese" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
-                              <Component id="jButton4" min="-2" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="jButton4" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jButton3" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
                           </Group>
                       </Group>
                       <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
@@ -656,6 +683,11 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="weaponPreview" min="-2" pref="122" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="57" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="weaponLevelCombo" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="weaponVariantCombo" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
                       <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
@@ -774,6 +806,41 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value=" "/>
               </Properties>
+            </Component>
+            <Component class="javax.swing.JButton" name="jButton3">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Edit"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JComboBox" name="weaponLevelCombo">
+              <Properties>
+                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                  <StringArray count="4">
+                    <StringItem index="0" value="Item 1"/>
+                    <StringItem index="1" value="Item 2"/>
+                    <StringItem index="2" value="Item 3"/>
+                    <StringItem index="3" value="Item 4"/>
+                  </StringArray>
+                </Property>
+              </Properties>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+              </AuxValues>
+            </Component>
+            <Component class="javax.swing.JComboBox" name="weaponVariantCombo">
+              <Properties>
+                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                  <StringArray count="4">
+                    <StringItem index="0" value="Item 1"/>
+                    <StringItem index="1" value="Item 2"/>
+                    <StringItem index="2" value="Item 3"/>
+                    <StringItem index="3" value="Item 4"/>
+                  </StringArray>
+                </Property>
+              </Properties>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+              </AuxValues>
             </Component>
           </SubComponents>
         </Container>
