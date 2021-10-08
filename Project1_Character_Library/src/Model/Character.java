@@ -8,6 +8,7 @@ package Model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 
 /**
  *
@@ -131,9 +132,10 @@ public class Character extends GameEntity implements IPrototype<Character>{
                currentWeapon,direction,name, aspect,level,cost);
     }
 
-    @Override
-    public void attack(GameEntity gameEntity) {
-        System.out.println("Character Attacking xd");
+    public void attack(ArrayList<Character> characters) {
+        for(Character character : characters){
+            character.setLife((int) (character.getLife() - this.currentWeapon.getDamage()));
+        }
     }
 
 

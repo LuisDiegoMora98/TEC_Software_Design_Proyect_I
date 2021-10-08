@@ -83,12 +83,6 @@ public class Weapon extends GameEntity implements IPrototype<Weapon>{
         return clone();
     }
 
-    @Override
-    public void attack(GameEntity gameEntity) {
-        System.out.println("Weapon Attacking xd");
-    }
-
-
     
     public static class WeaponBuilder implements IBuilder<Weapon>{
         

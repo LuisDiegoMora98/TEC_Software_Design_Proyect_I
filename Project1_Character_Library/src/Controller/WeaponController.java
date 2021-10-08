@@ -26,7 +26,6 @@ public class WeaponController {
     private static WeaponController weaponController;
     
     private WeaponController() throws IOException{
-    
         this.json = JSONLoader.getInstance();
         this.weaponPrototypes = new  WeaponPrototypeFactory();
         this.aspects = new HashMap<>();

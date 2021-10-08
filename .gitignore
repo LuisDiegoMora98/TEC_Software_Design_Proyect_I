@@ -31,3 +31,4 @@ Project1_Character_Library/nbbuild/
 Project1_Character_Library/dist/
 Project1_Character_Library/nbdist/
 Project1_Character_Library/.nb-gradle/
+/Library_demo/build/

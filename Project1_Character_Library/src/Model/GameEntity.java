@@ -74,6 +74,6 @@ public abstract class GameEntity {
         return this.name;
     }
     
-    public abstract void attack(GameEntity gameEntity);
+    
   
 }

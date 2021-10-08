@@ -88,7 +88,7 @@ public class GeneralViewerController {
    public void getCharacterInstances(int n, String name){
        ArrayList<Character> results = characters.getManyCharacters(name, n);
        for(Character c : results){
-           System.out.println("{ Name:" + c.getName() + ", Life:" + c.getLife() + ", CurrentWeapon:" + c.getCurrentWeapon() + ", Level:" + c.getLevel()+ ", Weapons:" + c.getWeapons() + "}");
+           System.out.println(c);
        }
    }
    

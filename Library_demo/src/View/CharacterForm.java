@@ -5,20 +5,218 @@
  */
 package View;
 
+import Controller.GeneralViewerController;
+import Model.Weapon;
+import java.awt.Image;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import javax.swing.AbstractListModel;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
+import utils.ImageChooser;
+import Model.Character;
+import Model.Direction;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+
 /**
  *
  * @author lalem
  */
 public class CharacterForm extends javax.swing.JFrame {
 
-    /**
-     * Creates new form CharacterForm
-     */
+    CustomListWeaponModel weaponModel = new CustomListWeaponModel();
+    private GeneralViewerController controller;
+    private ArrayList<String> images;
+    private int index;
+    private Character character;
+    private DefaultComboBoxModel availableWeapons;
+    private DefaultComboBoxModel directionsModel;
+
     public CharacterForm() {
         initComponents();
+        this.index = 0;
+        this.controller = GeneralViewerController.getInstance();
+        this.availableWeapons =  new DefaultComboBoxModel();
+        this.directionsModel =  new DefaultComboBoxModel(Direction.values());
+        fillComboWeapons();
+        fillComboDirections();
+        initWeaponList();
+        this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
     
+    public CharacterForm(Character character) {
+        initComponents();
+        this.index = 0;
+        this.controller = GeneralViewerController.getInstance();
+        this.character = character;
+        this.availableWeapons =  new DefaultComboBoxModel();
+        this.directionsModel =  new DefaultComboBoxModel(Direction.values());
+        fillComboWeapons();
+        fillComboDirections();
+        fillData();
+        initWeaponList();
+        this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+    }
+    
+    private void fillData(){
+        txtCost.setText(character.getCost() + "");
+        txtName.setText(character.getName());
+        txtHitsPerTime.setText(character.getHitsPerTime() + "");
+        txtFieldsInArmy.setText(character.getFieldsInArmy() + "");
+        txtInitialLevel.setText(character.getLevel() + "");
+        txtLevelRequired.setText(character.getLevelRequired() + "");
+        txtLife.setText(character.getLife() + "");
+        weaponModel.setEntities((ArrayList<Weapon>) character.getWeapons().clone());
+        
+        weaponList.updateUI();
+    }
+    
+    private void initWeaponList() {
+        weaponList.setModel(weaponModel);
+        if(character != null){
+            weaponModel.setEntities(controller.getWeapons(character));
+        }
+    }
 
+    private Weapon getSelectedWeapon() {
+        Weapon selectedWeapon = weaponModel.getWeapon(weaponList.getSelectedIndex());
+        return selectedWeapon;
+    }
+    
+    private void deleteSelectedWeapon() {
+        weaponModel.deleteWeapon(index);
+        weaponList.updateUI();
+    }
+
+    public void fillComboWeapons(){
+        ArrayList<Weapon> weapons = controller.getWeaponList();
+        for (int i = 0; i < weapons.size(); i++) {
+            availableWeapons.addElement(weapons.get(i));
+            availableWeaponsList.setModel(availableWeapons);
+        }
+    } 
+    
+    public void fillComboDirections(){
+        cbxDirection.setModel(directionsModel);
+    } 
+    
+    public Weapon getComboSelectedWeapon(){
+        Weapon weapon = (Weapon) availableWeaponsList.getSelectedItem();
+        return weapon;
+        
+    }
+    
+    public Direction getComboSelectedDirection(){
+        return (Direction) cbxDirection.getSelectedItem();
+    }
+
+    public void openFile(javax.swing.JLabel label) {
+
+        images = new ArrayList<>(); //Se inicializa el arreglo
+        try {
+            images = ImageChooser.Choose();
+            String strPaths = images.toString().replace("[", "").replace("]", "");
+            txtPath.setText(strPaths);
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(null, "Problem choosing images", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+        try {
+            Image img;
+            ImageIcon icono = new ImageIcon();
+            img = img = ImageChooser.getImage(lblImage.getWidth(), lblImage.getHeight(), images.get(0));
+            if (img != null) {
+                icono.setImage(img);
+                label.setIcon(icono);
+            }
+        } catch (IOException ex) {
+        }
+
+    }
+
+    public void previousImage(javax.swing.JLabel label) {
+        if (index > 0) {
+            try {
+                index = index - 1;
+                Image img;
+                ImageIcon icono = new ImageIcon();
+                img = ImageChooser.getImage(label.getWidth(), label.getHeight(), images.get(index));
+                if (img != null) {
+                    icono.setImage(img);
+                    label.setIcon(icono);
+                }
+            } catch (IOException ex) {
+            }
+        }
+    }
+
+    public void nextImage(javax.swing.JLabel label) {
+        if (index < images.size() - 1) {
+            try {
+                index = index + 1;
+                Image img;
+                ImageIcon icono = new ImageIcon();
+                img = ImageChooser.getImage(label.getWidth(), label.getHeight(), images.get(index));
+                if (img != null) {
+                    icono.setImage(img);
+                    label.setIcon(icono);
+                }
+            } catch (IOException ex) {
+            }
+        }
+    }
+
+    public void addLevelAspect(javax.swing.JTextField txtlevel, javax.swing.JTextField txtpath, javax.swing.JLabel lblimage) {
+        int level = Integer.parseInt(txtlevel.getText());
+        ArrayList<String> paths = new ArrayList<>(Arrays.asList(txtpath.getText().split(",")));
+        controller.insertCharacterLevel(level, paths);
+    }
+
+    
+    public Character createCharacter(String pName, int pLife, int pLevelReq, int pLevel, double pHitsPerTime, double pFields,
+                                Direction pDirection,double pCost) throws IOException {
+        return controller.createCharacter(pName, pLife, pLevelReq, pLevel, pHitsPerTime, pFields, pDirection,pCost);
+    }
+    
+    public class CustomListWeaponModel extends AbstractListModel {
+
+        private ArrayList<Weapon> entities = new ArrayList();
+
+        @Override
+        public int getSize() {
+            return entities.size();
+        }
+
+        @Override
+
+        public Object getElementAt(int index) {
+            Weapon entity = entities.get(index);
+            return entity.getName();
+        }
+
+        public Weapon getWeapon(int index) {
+            return entities.get(index);
+        }
+
+        public void setEntities(ArrayList<Weapon> entities) {
+            this.entities = entities;
+            
+        }
+        
+        public void insertWeapon(Weapon w){
+            System.out.println(w.getName());
+            this.entities.add(w);
+            this.entities.get(this.entities.size() - 1);
+        }
+        
+        public void deleteWeapon(int index){
+            this.entities.remove(index);
+        }
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -40,30 +238,38 @@ public class CharacterForm extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jButton3 = new javax.swing.JButton();
+        btnAdd = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        routeField = new javax.swing.JTextField();
-        previewIcon = new javax.swing.JLabel();
-        jButton4 = new javax.swing.JButton();
+        txtPath = new javax.swing.JTextField();
+        btnOpenFile = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        characterWeaponList = new javax.swing.JList<>();
-        jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
+        weaponList = new javax.swing.JList<>();
+        btnAddWeapon = new javax.swing.JButton();
+        btnDelete = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator2 = new javax.swing.JSeparator();
-        lifeField = new javax.swing.JTextField();
-        hitsPerTimeField = new javax.swing.JTextField();
-        fieldsInArmyField = new javax.swing.JTextField();
-        levelRequiredField = new javax.swing.JTextField();
+        txtLife = new javax.swing.JTextField();
+        txtHitsPerTime = new javax.swing.JTextField();
+        txtFieldsInArmy = new javax.swing.JTextField();
+        txtLevelRequired = new javax.swing.JTextField();
         availableWeaponsList = new javax.swing.JComboBox<>();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
-        levelField = new javax.swing.JTextField();
-        jButton7 = new javax.swing.JButton();
-        jButton8 = new javax.swing.JButton();
+        txtLevel = new javax.swing.JTextField();
+        btnSaveAsNew = new javax.swing.JButton();
         jLabel10 = new javax.swing.JLabel();
-        NameField = new javax.swing.JTextField();
+        txtName = new javax.swing.JTextField();
+        btnPrevious = new javax.swing.JButton();
+        lblImage = new javax.swing.JLabel();
+        btnNext = new javax.swing.JButton();
+        jLabel13 = new javax.swing.JLabel();
+        txtCost = new javax.swing.JTextField();
+        jLabel14 = new javax.swing.JLabel();
+        cbxDirection = new javax.swing.JComboBox<>();
+        jLabel15 = new javax.swing.JLabel();
+        txtInitialLevel = new javax.swing.JTextField();
+        jLabel16 = new javax.swing.JLabel();
 
         jButton2.setText("Add");
 
@@ -87,32 +293,49 @@ public class CharacterForm extends javax.swing.JFrame {
 
         jLabel4.setText("Fields in Army");
 
-        jButton3.setText("Add");
+        btnAdd.setText("Add");
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddActionPerformed(evt);
+            }
+        });
 
         jLabel8.setText("Level");
 
         jLabel9.setText("Route");
 
-        previewIcon.setText("Preview");
-
-        jButton4.setText("Open File");
-
-        characterWeaponList.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
+        btnOpenFile.setText("Open File");
+        btnOpenFile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOpenFileActionPerformed(evt);
+            }
         });
-        jScrollPane1.setViewportView(characterWeaponList);
 
-        jButton5.setText("Add");
+        weaponList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                weaponListValueChanged(evt);
+            }
+        });
+        jScrollPane1.setViewportView(weaponList);
 
-        jButton6.setText("Delete");
+        btnAddWeapon.setText("Add");
+        btnAddWeapon.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddWeaponActionPerformed(evt);
+            }
+        });
+
+        btnDelete.setText("Delete");
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
 
         jSeparator2.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
-        levelRequiredField.setText(" ");
+        txtLevelRequired.setText(" ");
 
-        availableWeaponsList.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         availableWeaponsList.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 availableWeaponsListActionPerformed(evt);
@@ -123,11 +346,44 @@ public class CharacterForm extends javax.swing.JFrame {
 
         jLabel12.setText("Available weapons");
 
-        jButton7.setText("Save");
-
-        jButton8.setText("Save as a new Character");
+        btnSaveAsNew.setText("Save as a new Character");
+        btnSaveAsNew.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveAsNewActionPerformed(evt);
+            }
+        });
 
         jLabel10.setText("Name");
+
+        btnPrevious.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/previous.png"))); // NOI18N
+        btnPrevious.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPreviousActionPerformed(evt);
+            }
+        });
+
+        lblImage.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        btnNext.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/next.png"))); // NOI18N
+        btnNext.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNextActionPerformed(evt);
+            }
+        });
+
+        jLabel13.setText("Cost");
+
+        jLabel14.setText("Direction");
+
+        jLabel15.setText("Initial level");
+
+        txtInitialLevel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtInitialLevelActionPerformed(evt);
+            }
+        });
+
+        jLabel16.setText("Create characters");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -136,128 +392,154 @@ public class CharacterForm extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(29, 29, 29)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 616, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 616, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(9, 9, 9)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel11)
+                                        .addGap(0, 0, Short.MAX_VALUE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(btnDelete)
+                                        .addGap(18, 18, 18)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGap(0, 0, Short.MAX_VALUE)
+                                                .addComponent(btnSaveAsNew))
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(btnAddWeapon)
+                                                    .addComponent(availableWeaponsList, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(jLabel12))
+                                                .addGap(0, 0, Short.MAX_VALUE)))))))
+                        .addGap(8, 8, 8))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jLabel14)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 100, Short.MAX_VALUE)
+                                .addComponent(cbxDirection, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel1)
                                     .addComponent(jLabel4)
                                     .addComponent(jLabel3)
-                                    .addComponent(jLabel2))
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel10)
+                                    .addComponent(jLabel13)
+                                    .addComponent(jLabel16)
+                                    .addComponent(jLabel15))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(fieldsInArmyField)
-                                    .addComponent(hitsPerTimeField)
-                                    .addComponent(lifeField)
-                                    .addComponent(levelRequiredField, javax.swing.GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel10)
-                                .addGap(67, 67, 67)
-                                .addComponent(NameField, javax.swing.GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE)))
+                                    .addComponent(txtFieldsInArmy)
+                                    .addComponent(txtHitsPerTime)
+                                    .addComponent(txtLife)
+                                    .addComponent(txtLevelRequired, javax.swing.GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)
+                                    .addComponent(txtCost)
+                                    .addComponent(txtName, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(txtInitialLevel))))
                         .addGap(18, 18, 18)
                         .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(24, 24, 24)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(jLabel9)
-                                        .addComponent(jLabel8))
-                                    .addGap(42, 42, 42)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(layout.createSequentialGroup()
-                                            .addComponent(routeField, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                            .addComponent(jButton4))
-                                        .addComponent(levelField, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGap(4, 4, 4)
-                                    .addComponent(jButton3)))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(previewIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(34, 34, 34))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(9, 9, 9)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jLabel9)
+                                .addComponent(jLabel8))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(3, 3, 3)
+                                .addComponent(btnAdd)))
+                        .addGap(20, 20, 20)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel11)
-                                .addGap(0, 0, Short.MAX_VALUE))
+                                .addComponent(txtPath, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnOpenFile))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(32, 32, 32)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addComponent(jButton6)
-                                                .addGap(136, 136, 136))
-                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                                .addComponent(jButton5)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addComponent(jLabel12)
-                                                    .addComponent(availableWeaponsList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jButton7)
-                                        .addGap(20, 20, 20)
-                                        .addComponent(jButton8)))))))
-                .addContainerGap(23, Short.MAX_VALUE))
+                                .addComponent(txtLevel, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnPrevious, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblImage, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnNext, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addGap(15, 15, 15))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGap(8, 8, 8)
+                        .addComponent(jLabel16)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton7)
-                            .addComponent(jButton8)))
+                            .addComponent(jLabel10)
+                            .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(txtLife, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(20, 20, 20)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2)
+                            .addComponent(txtHitsPerTime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(27, 27, 27)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel4)
+                            .addComponent(txtFieldsInArmy, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(27, 27, 27)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(txtLevelRequired, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel15)
+                            .addComponent(txtInitialLevel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(57, 57, 57)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(30, 30, 30)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel10)
-                                    .addComponent(NameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel1)
-                                    .addComponent(lifeField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(20, 20, 20)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel2)
-                                    .addComponent(hitsPerTimeField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(27, 27, 27)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel4)
-                                    .addComponent(fieldsInArmyField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(27, 27, 27)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel3)
-                                    .addComponent(levelRequiredField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(55, 55, 55)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel8)
+                                    .addComponent(txtLevel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(layout.createSequentialGroup()
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(jLabel8)
-                                        .addComponent(levelField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(jLabel9)
+                                        .addComponent(txtPath, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(btnOpenFile))
+                                    .addGap(51, 51, 51)))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGap(92, 92, 92)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblImage, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addComponent(btnNext, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(40, 40, 40))
                                     .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                            .addComponent(jLabel9)
-                                            .addComponent(routeField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jButton4))
-                                        .addGap(51, 51, 51)))
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(previewIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jButton3)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGap(41, 41, 41)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(btnAdd)
+                                            .addComponent(btnPrevious, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))))))))
+                .addGap(15, 15, 15)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtCost, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel13))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel14)
+                    .addComponent(cbxDirection, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
                         .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                        .addGap(18, 30, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel11)
                             .addComponent(jLabel12))
@@ -266,10 +548,13 @@ public class CharacterForm extends javax.swing.JFrame {
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jButton5)
+                                    .addComponent(btnDelete)
                                     .addComponent(availableWeaponsList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(33, 33, 33)
-                                .addComponent(jButton6)))))
+                                .addGap(18, 18, 18)
+                                .addComponent(btnAddWeapon))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(146, 146, 146)
+                        .addComponent(btnSaveAsNew)))
                 .addGap(26, 26, 26))
         );
 
@@ -279,6 +564,66 @@ public class CharacterForm extends javax.swing.JFrame {
     private void availableWeaponsListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_availableWeaponsListActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_availableWeaponsListActionPerformed
+
+    private void btnPreviousActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPreviousActionPerformed
+        previousImage(lblImage);
+    }//GEN-LAST:event_btnPreviousActionPerformed
+
+    private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
+        nextImage(lblImage);
+    }//GEN-LAST:event_btnNextActionPerformed
+
+    private void btnOpenFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOpenFileActionPerformed
+        openFile(lblImage);
+    }//GEN-LAST:event_btnOpenFileActionPerformed
+
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        addLevelAspect(txtLevel, txtPath, lblImage);
+        lblImage.setIcon(null);
+        txtLevel.setText("");
+        txtPath.setText("");
+    }//GEN-LAST:event_btnAddActionPerformed
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        deleteSelectedWeapon();
+    }//GEN-LAST:event_btnDeleteActionPerformed
+
+    private void weaponListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_weaponListValueChanged
+
+    }//GEN-LAST:event_weaponListValueChanged
+
+    private void btnAddWeaponActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddWeaponActionPerformed
+        Weapon weapon = getComboSelectedWeapon();
+        System.out.println(weapon.getName());
+        controller.insertWeapons(weapon);
+        //HELP, COMO AGREGO AL JLIST Y ACTUALIZO
+        weaponModel.insertWeapon(weapon);
+        weaponList.updateUI();
+    }//GEN-LAST:event_btnAddWeaponActionPerformed
+
+    private void btnSaveAsNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveAsNewActionPerformed
+        String name = txtName.getText();
+        int life  = Integer.parseInt(txtLife.getText());
+        //int levelReq = Integer.parseInt(txtLevelRequired.getText());
+        int initialLevel  =  Integer.parseInt(txtInitialLevel.getText());
+        double hitsPerTime =  Double.parseDouble(txtHitsPerTime.getText());
+        double fields = Double.parseDouble(txtFieldsInArmy.getText());
+        Direction direction = getComboSelectedDirection();
+        double cost =  Double.parseDouble(txtCost.getText());
+        
+        try {
+            createCharacter(name,life,1,initialLevel,hitsPerTime,fields,direction,cost);
+            JOptionPane.showMessageDialog(null, "Character created!");
+        } catch (IOException ex) {
+            Logger.getLogger(CharacterForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        controller.refresh();
+        
+    }//GEN-LAST:event_btnSaveAsNewActionPerformed
+
+    private void txtInitialLevelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtInitialLevelActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtInitialLevelActionPerformed
 
     /**
      * @param args the command line arguments
@@ -316,24 +661,26 @@ public class CharacterForm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField NameField;
     private javax.swing.JComboBox<String> availableWeaponsList;
-    private javax.swing.JList<String> characterWeaponList;
-    private javax.swing.JTextField fieldsInArmyField;
-    private javax.swing.JTextField hitsPerTimeField;
+    private javax.swing.JButton btnAdd;
+    private javax.swing.JButton btnAddWeapon;
+    private javax.swing.JButton btnDelete;
+    private javax.swing.JButton btnNext;
+    private javax.swing.JButton btnOpenFile;
+    private javax.swing.JButton btnPrevious;
+    private javax.swing.JButton btnSaveAsNew;
+    private javax.swing.JComboBox<String> cbxDirection;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -346,10 +693,16 @@ public class CharacterForm extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField levelField;
-    private javax.swing.JTextField levelRequiredField;
-    private javax.swing.JTextField lifeField;
-    private javax.swing.JLabel previewIcon;
-    private javax.swing.JTextField routeField;
+    private javax.swing.JLabel lblImage;
+    private javax.swing.JTextField txtCost;
+    private javax.swing.JTextField txtFieldsInArmy;
+    private javax.swing.JTextField txtHitsPerTime;
+    private javax.swing.JTextField txtInitialLevel;
+    private javax.swing.JTextField txtLevel;
+    private javax.swing.JTextField txtLevelRequired;
+    private javax.swing.JTextField txtLife;
+    private javax.swing.JTextField txtName;
+    private javax.swing.JTextField txtPath;
+    private javax.swing.JList<String> weaponList;
     // End of variables declaration//GEN-END:variables
 }

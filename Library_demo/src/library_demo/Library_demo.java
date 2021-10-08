@@ -5,6 +5,8 @@
  */
 package library_demo;
 
+import Controller.GeneralViewerController;
+
 /**
  *
  * @author Dell
@@ -15,7 +17,7 @@ public class Library_demo {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        GeneralViewerController.getInstance().init();
     }
     
 }
