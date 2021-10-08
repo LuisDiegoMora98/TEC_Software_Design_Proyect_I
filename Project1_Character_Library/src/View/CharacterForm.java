@@ -44,6 +44,8 @@ public class CharacterForm extends javax.swing.JFrame {
         this.directionsModel =  new DefaultComboBoxModel(Direction.values());
         fillComboWeapons();
         fillComboDirections();
+        initWeaponList();
+        this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
     
     public CharacterForm(Character character) {
@@ -59,8 +61,9 @@ public class CharacterForm extends javax.swing.JFrame {
 
     private void initWeaponList() {
         weaponList.setModel(weaponModel);
-        weaponModel.setEntities(controller.getWeapons(character));
-
+        if(character != null){
+            weaponModel.setEntities(controller.getWeapons(character));
+        }
     }
 
     private Weapon getSelectedWeapon() {
@@ -189,7 +192,9 @@ public class CharacterForm extends javax.swing.JFrame {
         }
         
         public void insertWeapon(Weapon w){
+            System.out.println(w.getName());
             this.entities.add(w);
+            this.entities.get(this.entities.size() - 1);
         }
         
         public void deleteWeapon(int index){

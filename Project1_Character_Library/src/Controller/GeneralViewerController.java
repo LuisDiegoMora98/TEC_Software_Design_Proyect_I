@@ -58,7 +58,7 @@ public class GeneralViewerController {
     }
     
     public void refresh(){
-    
+        viewer.refresh();
     }
         
     public Weapon createWeapon(int scope, double damage, double explotionRange, 
