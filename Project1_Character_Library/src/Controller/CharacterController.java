@@ -54,7 +54,7 @@ public class CharacterController {
     
     public Character createCharacter(String pName, int pLife, int pLevelReq,
                                 int pLevel, double pHitsPerTime, double pFields,
-                                Direction pDirection,int pCost) throws IOException{
+                                Direction pDirection,double pCost) throws IOException{
         Character character = new Character.CharacterBuilder()
                 .setName(pName)
                 .setLife(pLife)

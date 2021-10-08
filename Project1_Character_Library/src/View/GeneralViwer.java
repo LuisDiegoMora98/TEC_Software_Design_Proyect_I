@@ -839,11 +839,8 @@ public class GeneralViwer extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        try {
-            new WeaponForm().setVisible(true);
-        } catch (IOException ex) {
-            Logger.getLogger(GeneralViwer.class.getName()).log(Level.SEVERE, null, ex);
-        }
+     
+        new WeaponForm().setVisible(true);
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -852,12 +849,14 @@ public class GeneralViwer extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         if(selectedCharacter != null){
-            new CharacterForm(selectedCharacter);
+            new CharacterForm(selectedCharacter).setVisible(true);
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        //new WeaponForm(Weapon);
+        if(selectedWeapon != null){
+            new WeaponForm(selectedWeapon).setVisible(true);
+        }
     }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
@@ -865,6 +864,8 @@ public class GeneralViwer extends javax.swing.JFrame {
      */
     
     public void refresh(){
+        characterModel.setEntities(controller.getCharacterList());
+        weaponModel.setEntities(controller.getWeaponList());
         characterList.updateUI();
         characterWeaponList.updateUI();
         weaponList.updateUI();

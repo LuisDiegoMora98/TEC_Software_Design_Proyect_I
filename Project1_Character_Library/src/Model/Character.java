@@ -147,7 +147,7 @@ public class Character extends GameEntity implements IPrototype<Character>{
         private int level;
         private double fieldsInArmy;
         private int levelRequired;
-        private int cost;
+        private double cost;
         private ArrayList<Weapon> weapons;
         private Weapon currentWeapon;
         private Direction direction;
@@ -198,7 +198,7 @@ public class Character extends GameEntity implements IPrototype<Character>{
             return this;
         }
 
-        public CharacterBuilder setCost(int cost) {
+        public CharacterBuilder setCost(double cost) {
             this.cost = cost;
             return this;
         }

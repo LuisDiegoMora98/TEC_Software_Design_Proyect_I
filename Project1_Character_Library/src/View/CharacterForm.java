@@ -57,8 +57,24 @@ public class CharacterForm extends javax.swing.JFrame {
         this.directionsModel =  new DefaultComboBoxModel(Direction.values());
         fillComboWeapons();
         fillComboDirections();
+        fillData();
+        initWeaponList();
+        this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
-
+    
+    private void fillData(){
+        txtCost.setText(character.getCost() + "");
+        txtName.setText(character.getName());
+        txtHitsPerTime.setText(character.getHitsPerTime() + "");
+        txtFieldsInArmy.setText(character.getFieldsInArmy() + "");
+        txtInitialLevel.setText(character.getLevel() + "");
+        txtLevelRequired.setText(character.getLevelRequired() + "");
+        txtLife.setText(character.getLife() + "");
+        weaponModel.setEntities((ArrayList<Weapon>) character.getWeapons().clone());
+        
+        weaponList.updateUI();
+    }
+    
     private void initWeaponList() {
         weaponList.setModel(weaponModel);
         if(character != null){
@@ -162,7 +178,7 @@ public class CharacterForm extends javax.swing.JFrame {
 
     
     public Character createCharacter(String pName, int pLife, int pLevelReq, int pLevel, double pHitsPerTime, double pFields,
-                                Direction pDirection,int pCost) throws IOException {
+                                Direction pDirection,double pCost) throws IOException {
         return controller.createCharacter(pName, pLife, pLevelReq, pLevel, pHitsPerTime, pFields, pDirection,pCost);
     }
     
@@ -241,7 +257,6 @@ public class CharacterForm extends javax.swing.JFrame {
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         txtLevel = new javax.swing.JTextField();
-        jButton7 = new javax.swing.JButton();
         btnSaveAsNew = new javax.swing.JButton();
         jLabel10 = new javax.swing.JLabel();
         txtName = new javax.swing.JTextField();
@@ -331,8 +346,6 @@ public class CharacterForm extends javax.swing.JFrame {
 
         jLabel12.setText("Available weapons");
 
-        jButton7.setText("Save");
-
         btnSaveAsNew.setText("Save as a new Character");
         btnSaveAsNew.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -396,8 +409,6 @@ public class CharacterForm extends javax.swing.JFrame {
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addGroup(layout.createSequentialGroup()
                                                 .addGap(0, 0, Short.MAX_VALUE)
-                                                .addComponent(jButton7)
-                                                .addGap(20, 20, 20)
                                                 .addComponent(btnSaveAsNew))
                                             .addGroup(layout.createSequentialGroup()
                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -419,7 +430,9 @@ public class CharacterForm extends javax.swing.JFrame {
                                     .addComponent(jLabel3)
                                     .addComponent(jLabel2)
                                     .addComponent(jLabel10)
-                                    .addComponent(jLabel13))
+                                    .addComponent(jLabel13)
+                                    .addComponent(jLabel16)
+                                    .addComponent(jLabel15))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(txtFieldsInArmy)
@@ -427,10 +440,8 @@ public class CharacterForm extends javax.swing.JFrame {
                                     .addComponent(txtLife)
                                     .addComponent(txtLevelRequired, javax.swing.GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)
                                     .addComponent(txtCost)
-                                    .addComponent(txtName, javax.swing.GroupLayout.Alignment.TRAILING)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel16)
-                                .addGap(0, 0, Short.MAX_VALUE)))
+                                    .addComponent(txtName, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(txtInitialLevel))))
                         .addGap(18, 18, 18)
                         .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(24, 24, 24)
@@ -440,27 +451,21 @@ public class CharacterForm extends javax.swing.JFrame {
                                 .addComponent(jLabel8))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(3, 3, 3)
-                                .addComponent(btnAdd))
-                            .addComponent(jLabel15))
+                                .addComponent(btnAdd)))
+                        .addGap(20, 20, 20)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(20, 20, 20)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(txtPath, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(btnOpenFile))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(txtLevel, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(btnPrevious, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(lblImage, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(btnNext, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(txtPath, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnOpenFile))
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(18, 18, 18)
-                                .addComponent(txtInitialLevel, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(txtLevel, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnPrevious, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblImage, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnNext, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addGap(15, 15, 15))
         );
         layout.setVerticalGroup(
@@ -489,16 +494,16 @@ public class CharacterForm extends javax.swing.JFrame {
                         .addGap(27, 27, 27)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3)
-                            .addComponent(txtLevelRequired, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(txtLevelRequired, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel15)
+                            .addComponent(txtInitialLevel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(23, 23, 23)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel15)
-                            .addComponent(txtInitialLevel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(57, 57, 57)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -522,19 +527,19 @@ public class CharacterForm extends javax.swing.JFrame {
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(btnAdd)
                                             .addComponent(btnPrevious, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))))))))
-                .addGap(11, 11, 11)
+                .addGap(15, 15, 15)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel13)
-                    .addComponent(txtCost, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(25, 25, 25)
+                    .addComponent(txtCost, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel13))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel14)
                     .addComponent(cbxDirection, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 29, Short.MAX_VALUE)
+                        .addGap(18, 30, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel11)
                             .addComponent(jLabel12))
@@ -549,9 +554,7 @@ public class CharacterForm extends javax.swing.JFrame {
                                 .addComponent(btnAddWeapon))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(146, 146, 146)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton7)
-                            .addComponent(btnSaveAsNew))))
+                        .addComponent(btnSaveAsNew)))
                 .addGap(26, 26, 26))
         );
 
@@ -606,7 +609,7 @@ public class CharacterForm extends javax.swing.JFrame {
         double hitsPerTime =  Double.parseDouble(txtHitsPerTime.getText());
         double fields = Double.parseDouble(txtFieldsInArmy.getText());
         Direction direction = getComboSelectedDirection();
-        int cost =  Integer.parseInt(txtCost.getText());
+        double cost =  Double.parseDouble(txtCost.getText());
         
         try {
             createCharacter(name,life,1,initialLevel,hitsPerTime,fields,direction,cost);
@@ -614,7 +617,7 @@ public class CharacterForm extends javax.swing.JFrame {
         } catch (IOException ex) {
             Logger.getLogger(CharacterForm.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+        controller.refresh();
         
     }//GEN-LAST:event_btnSaveAsNewActionPerformed
 
@@ -669,7 +672,6 @@ public class CharacterForm extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cbxDirection;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton7;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
