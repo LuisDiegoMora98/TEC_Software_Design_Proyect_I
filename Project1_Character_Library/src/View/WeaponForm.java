@@ -5,7 +5,8 @@
  */
 package View;
 
-import Controller.WeaponController;
+import Controller.GeneralViewerController;
+import Model.Weapon;
 import java.awt.Image;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -431,12 +432,12 @@ public class WeaponForm extends javax.swing.JFrame {
         ArrayList<String> paths = new ArrayList<>(Arrays.asList(txtpath.getText().split(",")));
         wcontroller.insertWeaponLevel(level, paths);
     }
-    
-    public void createWeapon(int scope, double damage, double explotionRange, 
-                             boolean levelIncrease,String name,int level,double cost) throws IOException{
-    
-        wcontroller.createWeapon(scope,damage,explotionRange,levelIncrease,name,level,cost);
-    
+
+    public Weapon createWeapon(int scope, double damage, double explotionRange,
+            boolean levelIncrease, String name, int level, double cost) throws IOException {
+
+        return controller.createWeapon(scope, damage, explotionRange, levelIncrease, name, level, cost);
+
     }
     
     public void cleanTextFields(){

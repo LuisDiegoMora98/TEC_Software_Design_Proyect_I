@@ -49,6 +49,9 @@ public class ImageChooser {
             }
 
          }
+        else{
+            return null;
+        }
         
         return paths;
     }
