@@ -6,6 +6,7 @@
 package Model;
 
 import java.awt.Image;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -13,7 +14,7 @@ import java.util.HashMap;
  *
  * @author Natalia
  */
-public abstract class GameEntity {
+public abstract class GameEntity implements Serializable {
     
     protected String name;
     protected HashMap<Integer,ArrayList<String>> aspect;
